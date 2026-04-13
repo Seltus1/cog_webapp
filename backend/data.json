@@ -1,0 +1,78 @@
+{
+    "ea34df02-44ec-4eb1-b719-89fd3a51769d": {
+        "attempts": [
+            {
+                "time": 1775655658900,
+                "doorId": 1,
+                "doorNumber": 1,
+                "doorSymbol": "\u25b2",
+                "keyId": 5,
+                "keyNumber": 4,
+                "keySymbol": "\u25c6",
+                "correct": true
+            },
+            {
+                "time": 1775655662900,
+                "doorId": 2,
+                "doorNumber": 2,
+                "doorSymbol": "\u25cf",
+                "keyId": 4,
+                "keyNumber": 3,
+                "keySymbol": "\u2605",
+                "correct": true
+            },
+            {
+                "time": 1775655665450,
+                "doorId": 4,
+                "doorNumber": 3,
+                "doorSymbol": "\u25a0",
+                "keyId": 4,
+                "keyNumber": 3,
+                "keySymbol": "\u2605",
+                "correct": false
+            },
+            {
+                "time": 1775655671417,
+                "doorId": 3,
+                "doorNumber": 4,
+                "doorSymbol": "\u2605",
+                "keyId": 3,
+                "keyNumber": 5,
+                "keySymbol": "\u25b2",
+                "correct": true
+            },
+            {
+                "time": 1775655680033,
+                "doorId": 4,
+                "doorNumber": 3,
+                "doorSymbol": "\u25a0",
+                "keyId": 2,
+                "keyNumber": 2,
+                "keySymbol": "\u25a0",
+                "correct": true
+            },
+            {
+                "time": 1775655686033,
+                "doorId": 5,
+                "doorNumber": 5,
+                "doorSymbol": "\u25c6",
+                "keyId": 1,
+                "keyNumber": 1,
+                "keySymbol": "\u25cf",
+                "correct": true
+            }
+        ],
+        "genAttempts": [
+            {
+                "time": 1775655693167,
+                "doorId": 9,
+                "doorNumber": 4,
+                "doorSymbol": "\u25a0",
+                "keyId": 2,
+                "keyNumber": 2,
+                "keySymbol": "\u25a0",
+                "correct": true
+            }
+        ]
+    }
+}
