@@ -34,14 +34,14 @@ function Key({ item, isSelected, onSelect }) {
     e.dataTransfer.setData('keyId', item.id);
     
     if (dragCanvasRef.current) {
-      // Center the 60px icon on the cursor
-      e.dataTransfer.setDragImage(dragCanvasRef.current, 30, 30);
+      // Center the 110px icon on the cursor
+      e.dataTransfer.setDragImage(dragCanvasRef.current, 55, 55);
     }
     
     onSelect(item.id);
   };
 
-  const assetPath = `/src/assets/${item.name}.svg`;
+  const assetPath = item.asset;
 
   return (
     <div 

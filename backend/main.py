@@ -24,9 +24,11 @@ class Attempt(BaseModel):
     doorNumber: int
     doorSymbol: str
     keyId: int
+    keyName: Optional[str] = None
     keyNumber: Optional[int] = None
     keySymbol: Optional[str] = None
     correct: bool
+    phase: Optional[str] = None
 
 class ExperimentData(BaseModel):
     hypothesis: str

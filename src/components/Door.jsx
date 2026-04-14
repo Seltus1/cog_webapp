@@ -16,7 +16,7 @@ function Door({ door, onDrop }) {
     setTimeout(() => setFeedback(null), 1000);
   };
 
-  const doorAssetPath = `/src/assets/doors/${door.color}_door.svg`;
+  const doorAssetPath = door.asset;
 
   return (
     <div 

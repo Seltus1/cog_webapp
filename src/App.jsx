@@ -10,23 +10,22 @@ import './App.css';
 
 
 function App() {
-  // Lock the ground truth to NUMBER_MATCH as per the POMDP model (the "true rule")
-  // The instructions will still mislead them with the Color hypothesis.
   const [currentHypothesis] = useState(HYPOTHESES.NUMBER_MATCH);
 
   const [items, setItems] = useState(() => generateAppItems());
   const [keys, setKeys] = useState(items.keys);
   const [doors, setDoors] = useState(items.doors);
-  const [genDoor, setGenDoor] = useState(items.genDoor);
+  const [genTrials, setGenTrials] = useState(items.genTrials);
+  const [currentGenTrialIndex, setCurrentGenTrialIndex] = useState(0);
+  
   const [selectedKeyId, setSelectedKeyId] = useState(null);
   const [attempts, setAttempts] = useState([]);
   const [genAttempts, setGenAttempts] = useState([]);
   const [feedbackMessage, setFeedbackMessage] = useState('');
-  const [stage, setStage] = useState('welcome'); // Welcome, then Instructions, then Experiment, then generalization then result page
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [stage, setStage] = useState('welcome'); // Welcome, Instructions, Experiment, Generalization, Results
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
   const [timerActive, setTimerActive] = useState(false);
 
-  // Timer logic
   useEffect(() => {
     let interval = null;
     if (timerActive && timeLeft > 0) {
@@ -53,7 +52,8 @@ function App() {
     setItems(newItems);
     setKeys(newItems.keys);
     setDoors(newItems.doors);
-    setGenDoor(newItems.genDoor);
+    setGenTrials(newItems.genTrials);
+    setCurrentGenTrialIndex(0);
     setAttempts([]);
     setGenAttempts([]);
     setStage('welcome');
@@ -69,26 +69,27 @@ function App() {
   };
 
   const handleAttempts = (phase, newAttempt) => {
-    // Phase being gen or experiment
     if (phase) {
-      const newAttempts = [...genAttempts, newAttempt]
-      setGenAttempts(newAttempts)
+      const newAttempts = [...genAttempts, newAttempt];
+      setGenAttempts(newAttempts);
       return newAttempts;
     } else {
-      const newAttempts = [...attempts, newAttempt]
-      setAttempts(newAttempts)
+      const newAttempts = [...attempts, newAttempt];
+      setAttempts(newAttempts);
       return newAttempts;
     }
   }
 
   const handleOpenDoor = (doorId, keyId) => {
     const isGenPhase = stage === 'generalization';
-    const targetDoor = isGenPhase ? genDoor : doors.find(d => d.id === doorId);
-    const selectedKey = keys.find(k => k.id === (keyId || selectedKeyId));
+    const currentGenTrial = genTrials[currentGenTrialIndex];
+    
+    const targetDoor = isGenPhase ? currentGenTrial.door : doors.find(d => d.id === doorId);
+    const availableKeys = isGenPhase ? currentGenTrial.keys : keys;
+    const selectedKey = availableKeys.find(k => k.id === (keyId || selectedKeyId));
     
     if (!selectedKey) return false;
 
-    // Use the assigned hypothesis
     const isCorrect = oracle.shouldOpen(selectedKey, targetDoor, currentHypothesis);
 
     const newAttempt = {
@@ -97,26 +98,38 @@ function App() {
       doorNumber: targetDoor.number,
       doorSymbol: targetDoor.symbol,
       keyId: selectedKey.id,
+      keyName: selectedKey.name,
       keyNumber: selectedKey.number,
       keySymbol: selectedKey.symbol,
-      correct: isCorrect
+      correct: isCorrect,
+      phase: isGenPhase ? `generalization_${currentGenTrialIndex + 1}` : 'learning'
     };
 
-    const updatedCurrentAttempts = handleAttempts(isGenPhase, newAttempt)
+    const updatedCurrentAttempts = handleAttempts(isGenPhase, newAttempt);
     
     if (isCorrect && !targetDoor.isOpen) {
       if (isGenPhase) {
-        setGenDoor({ ...genDoor, isOpen: true });
-        sendResultsToBackend(attempts, updatedCurrentAttempts, currentHypothesis);
-        setTimerActive(false); // Stop timer on success
-        setTimeout(() => setStage('results'), 1500);
+        // Mark current gen door as open (locally in state if needed, but we mostly just advance)
+        if (currentGenTrialIndex < genTrials.length - 1) {
+          setTimeout(() => {
+            setCurrentGenTrialIndex(prev => prev + 1);
+            setSelectedKeyId(null);
+          }, 1500);
+        } else {
+          // Finished all generalization trials
+          sendResultsToBackend(attempts, updatedCurrentAttempts, currentHypothesis);
+          setTimerActive(false);
+          setTimeout(() => setStage('results'), 1500);
+        }
       } else {
         const updatedDoors = doors.map(d => d.id === doorId ? { ...d, isOpen: true } : d);
         setDoors(updatedDoors);
         
-        // Completion Condition Check
         if (updatedDoors.every(d => d.isOpen)) {
-          setTimeout(() => setStage('generalization'), 1500);
+          setTimeout(() => {
+            setStage('generalization');
+            setSelectedKeyId(null);
+          }, 1500);
         }
       }
     }
@@ -158,9 +171,9 @@ function App() {
 
       {stage === 'generalization' && (
         <ExperimentBoard 
-          title="Phase 2: Generalization Test - Unlock the new door"
-          keys={keys}
-          doors={[genDoor]}
+          title={`Phase 2: Generalization - Trial ${currentGenTrialIndex + 1} of ${genTrials.length}`}
+          keys={genTrials[currentGenTrialIndex].keys}
+          doors={[genTrials[currentGenTrialIndex].door]}
           selectedKeyId={selectedKeyId}
           onSelectKey={handleSelectKey}
           onOpenDoor={handleOpenDoor}
