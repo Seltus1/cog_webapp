@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="200" viewBox="0 0 120 200">
+  <!-- Door body -->
+  <rect x="5" y="5" width="110" height="190" rx="5" fill="#8b5a2b" stroke="#5a3a1a" stroke-width="3"/>
+  <!-- Doorknob -->
+  <circle cx="91" cy="100" r="5" fill="#5a3a1a" opacity="0.6"/>
+  <!-- Star 1 at (60, 72): outer r=22, inner r=10 -->
+  <g transform="translate(60,72)">
+    <polygon points="0,-22 5.9,-8.1 20.9,-6.8 9.5,3.1 12.9,17.8 0,10 -12.9,17.8 -9.5,3.1 -20.9,-6.8 -5.9,-8.1" fill="white"/>
+    <text x="0" y="4" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#8b5a2b" text-anchor="middle">1</text>
+  </g>
+  <!-- Star 2 at (35, 140) -->
+  <g transform="translate(35,140)">
+    <polygon points="0,-22 5.9,-8.1 20.9,-6.8 9.5,3.1 12.9,17.8 0,10 -12.9,17.8 -9.5,3.1 -20.9,-6.8 -5.9,-8.1" fill="white"/>
+    <text x="0" y="4" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#8b5a2b" text-anchor="middle">2</text>
+  </g>
+  <!-- Star 3 at (85, 140) -->
+  <g transform="translate(85,140)">
+    <polygon points="0,-22 5.9,-8.1 20.9,-6.8 9.5,3.1 12.9,17.8 0,10 -12.9,17.8 -9.5,3.1 -20.9,-6.8 -5.9,-8.1" fill="white"/>
+    <text x="0" y="4" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#8b5a2b" text-anchor="middle">3</text>
+  </g>
+</svg>
