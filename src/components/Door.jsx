@@ -39,7 +39,7 @@ function Door({ door, onDrop }) {
         {feedback === 'correct' && <div className="feedback-icon correct">✔️</div>}
         {feedback === 'incorrect' && <div className="feedback-icon incorrect">❌</div>}
       </div>
-      <div className="door-label">{door.color.charAt(0).toUpperCase() + door.color.slice(1)} Box</div>
+      <div className="door-label">{door.color.charAt(0).toUpperCase() + door.color.slice(1)} Door</div>
     </div>
   );
 }

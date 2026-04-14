@@ -1,5 +1,4 @@
 import React from 'react';
-import { symbolMap } from '../scripts/environment';
 
 function Key({ item, isSelected, onSelect }) {
   const handleDragStart = (e) => {
@@ -7,18 +6,17 @@ function Key({ item, isSelected, onSelect }) {
     onSelect(item.id);
   };
 
+  // Resolve the asset path
+  const assetPath = `/src/assets/${item.name}.svg`;
+
   return (
     <div 
       className={`key ${isSelected ? 'selected' : ''}`} 
       onClick={() => onSelect(item.id)}
       draggable
       onDragStart={handleDragStart}
-      style={{ borderColor: item.color }}
     >
-      <div className="key-visual" style={{ color: item.color }}>
-        {item.symbol && <span className="key-symbol">{symbolMap[item.symbol] || item.symbol}</span>}
-        {item.number && <span className="key-number">{item.number}</span>}
-      </div>
+      <img src={assetPath} alt={item.name} className="key-image" />
     </div>
   );
 }

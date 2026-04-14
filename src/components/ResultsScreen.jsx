@@ -28,14 +28,14 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry }) {
         <ul>
           {doors.map(door => (
             <li key={door.id}>
-              Box {door.id}: <strong>{attemptsPerDoor[door.id] || 0} attempts</strong>
+              Door {door.id}: <strong>{attemptsPerDoor[door.id] || 0} attempts</strong>
             </li>
           ))}
         </ul>
 
         <h4>Phase 2: Generalization</h4>
         <p>
-          Attempts on the novel box: <strong>{totalGenAttempts} attempts</strong>
+          Attempts on the novel door: <strong>{totalGenAttempts} attempts</strong>
         </p>
       </div>
 

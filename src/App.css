@@ -133,17 +133,20 @@
 }
 
 .key {
-  width: 70px;
-  height: 70px;
-  border: 4px solid;
-  border-radius: 50% 50% 10% 10%;
+  width: 80px;
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: grab;
   transition: transform 0.1s, box-shadow 0.1s;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: transparent;
+}
+
+.key-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .key:active {
@@ -151,12 +154,11 @@
 }
 
 .key:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  transform: translateY(-5px) scale(1.1);
 }
 
 .key.selected {
-  box-shadow: 0 0 0 4px rgba(0,0,0,0.3);
+  filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
   transform: scale(1.1);
 }
 

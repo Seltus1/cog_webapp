@@ -112,7 +112,7 @@ function App() {
 
       {stage === 'experiment' && (
         <ExperimentBoard 
-          title="Phase 1: Unlock all 5 boxes"
+          title="Phase 1: Unlock all 5 doors"
           keys={keys}
           doors={doors}
           selectedKeyId={selectedKeyId}
@@ -124,7 +124,7 @@ function App() {
 
       {stage === 'generalization' && (
         <ExperimentBoard 
-          title="Phase 2: Generalization Test - Unlock the new box"
+          title="Phase 2: Generalization Test - Unlock the new door"
           keys={keys}
           doors={[genDoor]}
           selectedKeyId={selectedKeyId}
