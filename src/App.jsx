@@ -9,13 +9,11 @@ import './App.css';
 
 
 function App() {
-  // 1. Determine hypothesis first
-  const [currentHypothesis] = useState(() => {
-    const keys = Object.values(HYPOTHESES);
-    return keys[Math.floor(Math.random() * keys.length)];
-  });
+  // Lock the ground truth to NUMBER_MATCH as per the POMDP model (the "true rule")
+  // The instructions will still mislead them with the Color hypothesis.
+  const [currentHypothesis] = useState(HYPOTHESES.NUMBER_MATCH);
 
-  // 2. Generate items based on that hypothesis
+  // 2. Generate items (now hardcoded in environment.js)
   const [items, setItems] = useState(() => generateAppItems());
 
   const [keys, setKeys] = useState(items.keys);

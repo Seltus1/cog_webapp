@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import DoorIcon from './DoorIcon';
 
 function Door({ door, onDrop }) {
   const [feedback, setFeedback] = useState(null); // 'correct' or 'incorrect'
@@ -17,11 +16,7 @@ function Door({ door, onDrop }) {
     setTimeout(() => setFeedback(null), 1000);
   };
 
-  // Create an array to render multiple symbols
-  const symbolsToRender = Array(door.number).fill(door.symbol);
-
-  // Determine icon color based on door color for contrast
-  const iconColor = door.color === 'cream' ? '#333' : 'white';
+  const doorAssetPath = `/src/assets/doors/${door.color}_door.svg`;
 
   return (
     <div 
@@ -29,23 +24,15 @@ function Door({ door, onDrop }) {
       onDragOver={handleDragOver}
       onDrop={handleDrop}
       style={{ 
-        border: door.isOpen ? '6px solid #2ecc71' : '3px solid #333',
-        backgroundColor: door.color 
+        border: door.isOpen ? '6px solid #2ecc71' : 'none'
       }}
     >
       <div className="door-visual">
-        <div className="symbols-grid">
-          {symbolsToRender.map((s, idx) => (
-            <div key={idx} className="door-symbol-container">
-              <DoorIcon type={s} size={45} color={iconColor} />
-              <span className="door-symbol-number" style={{ color: iconColor }}>{idx + 1}</span>
-            </div>
-          ))}
-        </div>
+        <img src={doorAssetPath} alt={`${door.color} door`} className="door-image" />
         {feedback === 'correct' && <div className="feedback-icon correct">✔️</div>}
         {feedback === 'incorrect' && <div className="feedback-icon incorrect">❌</div>}
       </div>
-      <div className="door-label" style={{ color: iconColor }}>{door.color.charAt(0).toUpperCase() + door.color.slice(1)} Door</div>
+      <div className="door-label">{door.color.charAt(0).toUpperCase() + door.color.slice(1)} Door</div>
     </div>
   );
 }

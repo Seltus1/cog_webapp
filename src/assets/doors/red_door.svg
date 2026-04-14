@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="200" viewBox="0 0 120 200">
+  <!-- Door body -->
+  <rect x="5" y="5" width="110" height="190" rx="5" fill="#d93030" stroke="#8b0000" stroke-width="3"/>
+  <!-- Doorknob -->
+  <circle cx="91" cy="100" r="5" fill="#8b0000" opacity="0.6"/>
+  <!-- Moon: white circle minus covering red circle = crescent -->
+  <circle cx="60" cy="100" r="30" fill="white"/>
+  <circle cx="75" cy="92" r="26" fill="#d93030"/>
+</svg>
