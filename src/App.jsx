@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ExperimentBoard from './components/ExperimentBoard';
 import ResultsScreen from './components/ResultsScreen';
 import Instructions from './components/Instructions';
+import WelcomeScreen from './components/WelcomeScreen';
 import { generateAppItems } from './scripts/environment.js'
 import { sendResultsToBackend } from './scripts/backend.js';
 import { oracle, HYPOTHESES } from './scripts/oracle.js';
@@ -13,9 +14,7 @@ function App() {
   // The instructions will still mislead them with the Color hypothesis.
   const [currentHypothesis] = useState(HYPOTHESES.NUMBER_MATCH);
 
-  // 2. Generate items (now hardcoded in environment.js)
   const [items, setItems] = useState(() => generateAppItems());
-
   const [keys, setKeys] = useState(items.keys);
   const [doors, setDoors] = useState(items.doors);
   const [genDoor, setGenDoor] = useState(items.genDoor);
@@ -23,7 +22,31 @@ function App() {
   const [attempts, setAttempts] = useState([]);
   const [genAttempts, setGenAttempts] = useState([]);
   const [feedbackMessage, setFeedbackMessage] = useState('');
-  const [stage, setStage] = useState('instructions'); // Instructions, then Experiment, then generalization then result page
+  const [stage, setStage] = useState('welcome'); // Welcome, then Instructions, then Experiment, then generalization then result page
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [timerActive, setTimerActive] = useState(false);
+
+  // Timer logic
+  useEffect(() => {
+    let interval = null;
+    if (timerActive && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft(prevTime => prevTime - 1);
+      }, 1000);
+    } else if (timeLeft === 0) {
+      clearInterval(interval);
+      sendResultsToBackend(attempts, genAttempts, currentHypothesis);
+      setStage('results');
+      setTimerActive(false);
+    }
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timerActive, timeLeft]); 
+
+  const startExperiment = () => {
+    setStage('experiment');
+    setTimerActive(true);
+  };
 
   const handleReset = () => {
     const newItems = generateAppItems();
@@ -33,9 +56,11 @@ function App() {
     setGenDoor(newItems.genDoor);
     setAttempts([]);
     setGenAttempts([]);
-    setStage('instructions');
+    setStage('welcome');
     setSelectedKeyId(null);
     setFeedbackMessage('');
+    setTimeLeft(300);
+    setTimerActive(false);
   };
 
   const handleSelectKey = (keyId) => {
@@ -83,6 +108,7 @@ function App() {
       if (isGenPhase) {
         setGenDoor({ ...genDoor, isOpen: true });
         sendResultsToBackend(attempts, updatedCurrentAttempts, currentHypothesis);
+        setTimerActive(false); // Stop timer on success
         setTimeout(() => setStage('results'), 1500);
       } else {
         const updatedDoors = doors.map(d => d.id === doorId ? { ...d, isOpen: true } : d);
@@ -98,14 +124,24 @@ function App() {
     return isCorrect;
   };
 
-  if (keys.length === 0) return <div>Loading experiment...</div>;
+  if (keys.length === 0) return <div>Loading...</div>;
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  };
 
   return (
     <div className="App">
-      <h1>Cognitive Experiment</h1>
+      {timerActive && <div className="timer">Time Remaining: {formatTime(timeLeft)}</div>}
       
+      {stage === 'welcome' && (
+        <WelcomeScreen onNext={() => setStage('instructions')} />
+      )}
+
       {stage === 'instructions' && (
-        <Instructions onStart={() => setStage('experiment')} />
+        <Instructions onStart={startExperiment} />
       )}
 
       {stage === 'experiment' && (

@@ -17,7 +17,7 @@ export function shuffle(array) {
 }
 
 export function generateAppItems() {
-  // Hardcoded Boxes per PI Prompt & PDF
+
   const doors = [
     { id: 1, color: 'red', symbol: 'moon', number: 1, isOpen: false },
     { id: 2, color: 'pink', symbol: 'cloud', number: 2, isOpen: false },
@@ -26,7 +26,6 @@ export function generateAppItems() {
     { id: 5, color: 'teal', symbol: 'triangle', number: 5, isOpen: false }
   ];
 
-  // Hardcoded 13 Keys per PI Prompt
   const keys = [
     { id: 101, name: 'red1', color: 'red', number: 1, symbol: null },
     { id: 102, name: 'pink6', color: 'pink', number: 6, symbol: null },
@@ -43,12 +42,14 @@ export function generateAppItems() {
     { id: 113, name: 'purplearrow', color: 'purple', number: null, symbol: 'arrow' }
   ];
 
-  // Generalization door - random but following specs
+  // Generalization door - Must use a color that has an SVG asset
+  // We use the Pink Door which visually shows 2 shapes.
+  // This tests if they use 'pink6' (color match) or 'grey2' (number match).
   const genDoor = {
     id: 99,
-    color: 'orange', // New color not in main 5
-    symbol: 'star',
-    number: 3,
+    color: 'pink', 
+    symbol: 'cloud',
+    number: 2, // Matches the 2 clouds in pink_door.svg
     isOpen: false
   };
 

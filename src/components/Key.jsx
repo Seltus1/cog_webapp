@@ -9,7 +9,7 @@ function Key({ item, isSelected, onSelect }) {
     img.onload = () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      const size = 200; // Desired drag icon size
+      const size = 110; // Desired drag icon size
       canvas.width = size;
       canvas.height = size;
 

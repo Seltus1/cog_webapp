@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from typing import List, Dict
 import uuid
 import json
+from typing import List, Dict, Optional
 
 app = FastAPI()
 
@@ -16,17 +17,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 class Attempt(BaseModel):
     time: int
     doorId: int
     doorNumber: int
     doorSymbol: str
     keyId: int
-    keyNumber: int
-    keySymbol: str
+    keyNumber: Optional[int] = None
+    keySymbol: Optional[str] = None
     correct: bool
 
 class ExperimentData(BaseModel):
+    hypothesis: str
     attempts: List[Attempt]
     genAttempts: List[Attempt]
 
@@ -36,6 +39,7 @@ async def submit_results(data: ExperimentData):
     
     payload = {
         session_id: {
+            "hypothesis": data.hypothesis,
             "attempts": [a.dict() for a in data.attempts],
             "genAttempts": [a.dict() for a in data.genAttempts]
         }
@@ -44,7 +48,7 @@ async def submit_results(data: ExperimentData):
     print(f"Received data {session_id}:")
     print(payload)
     
-    with open('data.json', 'w') as file:
+    with open('data.json', 'a') as file:
         json.dump(payload, file, indent=4)
     
     return {"status": "success", "uuid": session_id}
