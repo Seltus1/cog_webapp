@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { symbolMap } from '../scripts/environment';
+import DoorIcon from './DoorIcon';
 
 function Door({ door, onDrop }) {
   const [feedback, setFeedback] = useState(null); // 'correct' or 'incorrect'
@@ -17,8 +17,11 @@ function Door({ door, onDrop }) {
     setTimeout(() => setFeedback(null), 1000);
   };
 
-  // Create an array of length door.number to render multiple symbols
+  // Create an array to render multiple symbols
   const symbolsToRender = Array(door.number).fill(door.symbol);
+
+  // Determine icon color based on door color for contrast
+  const iconColor = door.color === 'cream' ? '#333' : 'white';
 
   return (
     <div 
@@ -33,13 +36,16 @@ function Door({ door, onDrop }) {
       <div className="door-visual">
         <div className="symbols-grid">
           {symbolsToRender.map((s, idx) => (
-            <span key={idx} className="door-symbol">{symbolMap[s] || s}</span>
+            <div key={idx} className="door-symbol-container">
+              <DoorIcon type={s} size={45} color={iconColor} />
+              <span className="door-symbol-number" style={{ color: iconColor }}>{idx + 1}</span>
+            </div>
           ))}
         </div>
         {feedback === 'correct' && <div className="feedback-icon correct">✔️</div>}
         {feedback === 'incorrect' && <div className="feedback-icon incorrect">❌</div>}
       </div>
-      <div className="door-label">{door.color.charAt(0).toUpperCase() + door.color.slice(1)} Door</div>
+      <div className="door-label" style={{ color: iconColor }}>{door.color.charAt(0).toUpperCase() + door.color.slice(1)} Door</div>
     </div>
   );
 }

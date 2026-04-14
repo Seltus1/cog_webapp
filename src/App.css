@@ -73,28 +73,26 @@
   transition: transform 0.2s;
   padding: 15px;
   border-radius: 12px;
-  min-width: 150px;
+  min-width: 180px;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .door-visual {
-  width: 150px;
-  height: 220px;
+  width: 180px;
+  height: 260px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  color: white;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
   position: relative;
   transition: all 0.3s;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .symbols-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 15px;
   padding: 10px;
   justify-items: center;
   align-items: center;
@@ -104,14 +102,30 @@
   grid-column: 1 / span 2;
 }
 
-.door-symbol {
-  font-size: 40px;
+.door-symbol-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+}
+
+.door-symbol-number {
+  position: absolute;
+  font-size: 16px;
+  font-weight: bold;
+  pointer-events: none;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
 }
 
 .door-label {
   font-weight: bold;
   font-size: 1.1rem;
-  color: #444;
+  margin-top: 10px;
 }
 
 .door.open .door-visual {
@@ -120,10 +134,11 @@
 
 .feedback-icon {
   position: absolute;
-  font-size: 60px;
+  font-size: 80px;
   z-index: 10;
   animation: pop 0.5s ease-out;
   pointer-events: none;
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
 }
 
 @keyframes pop {
@@ -162,48 +177,12 @@
   transform: scale(1.1);
 }
 
-.key-visual {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 22px;
-  font-weight: bold;
-}
-
-/* Color specific adjustments for Door background */
-/* We use !important because these are usually set via inline style in the component */
+/* Color specific adjustments */
 .door[style*="background-color: red"] { background-color: #e74c3c !important; }
 .door[style*="background-color: pink"] { background-color: #ff85a2 !important; }
 .door[style*="background-color: cream"] { background-color: #fdf5e6 !important; }
-.door[style*="background-color: cream"] .door-visual { color: #333 !important; text-shadow: none !important; }
-.door[style*="background-color: cream"] .door-label { color: #333; }
 .door[style*="background-color: purple"] { background-color: #9b59b6 !important; }
 .door[style*="background-color: teal"] { background-color: #008080 !important; }
-
-/* Key colors */
-.key[style*="border-color: pink"] { border-color: #ff85a2 !important; }
-.key-visual[style*="color: pink"] { color: #ff85a2 !important; }
-.key[style*="border-color: cream"] { border-color: #fdf5e6 !important; }
-.key-visual[style*="color: cream"] { color: #d4c8b0 !important; }
-.key[style*="border-color: teal"] { border-color: #008080 !important; }
-.key-visual[style*="color: teal"] { color: #008080 !important; }
-.key[style*="border-color: orange"] { border-color: #e67e22 !important; }
-.key-visual[style*="color: orange"] { color: #e67e22 !important; }
-.key[style*="border-color: grey"] { border-color: #95a5a6 !important; }
-.key-visual[style*="color: grey"] { color: #7f8c8d !important; }
-.key[style*="border-color: white"] { border-color: #ecf0f1 !important; }
-.key-visual[style*="color: white"] { color: #bdc3c7 !important; }
-.key[style*="border-color: red"] { border-color: #e74c3c !important; }
-.key-visual[style*="color: red"] { color: #e74c3c !important; }
-.key[style*="border-color: blue"] { border-color: #3498db !important; }
-.key-visual[style*="color: blue"] { color: #3498db !important; }
-.key[style*="border-color: yellow"] { border-color: #f1c40f !important; }
-.key-visual[style*="color: yellow"] { color: #d4ac0d !important; }
-.key[style*="border-color: green"] { border-color: #2ecc71 !important; }
-.key-visual[style*="color: green"] { color: #27ae60 !important; }
-.key[style*="border-color: purple"] { border-color: #9b59b6 !important; }
-.key-visual[style*="color: purple"] { color: #8e44ad !important; }
-
 
 .results-screen {
   text-align: left;
