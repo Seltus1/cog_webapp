@@ -1,107 +1,9 @@
 {
-    "449de19c-2425-40ae-ba44-cc4038b4f971": {
+    "cafac558-09b3-4535-b5f6-232776ff0367": {
         "hypothesis": "number_match",
         "attempts": [
             {
-                "time": 1776197802815,
-                "doorId": 1,
-                "doorNumber": 1,
-                "doorSymbol": "moon",
-                "keyId": 101,
-                "keyNumber": 1,
-                "keySymbol": null,
-                "correct": true
-            },
-            {
-                "time": 1776197804214,
-                "doorId": 2,
-                "doorNumber": 2,
-                "doorSymbol": "cloud",
-                "keyId": 103,
-                "keyNumber": 2,
-                "keySymbol": null,
-                "correct": true
-            },
-            {
-                "time": 1776197808764,
-                "doorId": 3,
-                "doorNumber": 4,
-                "doorSymbol": "diamond",
-                "keyId": 105,
-                "keyNumber": 4,
-                "keySymbol": null,
-                "correct": true
-            },
-            {
-                "time": 1776197811380,
-                "doorId": 4,
-                "doorNumber": 3,
-                "doorSymbol": "heart",
-                "keyId": 106,
-                "keyNumber": 3,
-                "keySymbol": null,
-                "correct": true
-            },
-            {
-                "time": 1776197813130,
-                "doorId": 5,
-                "doorNumber": 5,
-                "doorSymbol": "triangle",
-                "keyId": 108,
-                "keyNumber": 5,
-                "keySymbol": null,
-                "correct": true
-            }
-        ],
-        "genAttempts": [
-            {
-                "time": 1776197815747,
-                "doorId": 99,
-                "doorNumber": 2,
-                "doorSymbol": "cloud",
-                "keyId": 104,
-                "keyNumber": null,
-                "keySymbol": "cloud",
-                "correct": false
-            },
-            {
-                "time": 1776197816997,
-                "doorId": 99,
-                "doorNumber": 2,
-                "doorSymbol": "cloud",
-                "keyId": 101,
-                "keyNumber": 1,
-                "keySymbol": null,
-                "correct": false
-            },
-            {
-                "time": 1776197818264,
-                "doorId": 99,
-                "doorNumber": 2,
-                "doorSymbol": "cloud",
-                "keyId": 102,
-                "keyNumber": 6,
-                "keySymbol": null,
-                "correct": false
-            },
-            {
-                "time": 1776197819197,
-                "doorId": 99,
-                "doorNumber": 2,
-                "doorSymbol": "cloud",
-                "keyId": 103,
-                "keyNumber": 2,
-                "keySymbol": null,
-                "correct": true
-            }
-        ]
-    }
-}{
-    "6f1313fd-836d-4f3f-8bd9-fe384b08133f": {
-        "hypothesis": "number_match",
-        "attempts": [
-            {
-                "time": 1776200448196,
+                "time": 1776201742718,
                 "doorId": 1,
                 "doorNumber": 1,
                 "doorSymbol": "moon",
@@ -113,7 +15,7 @@
                 "phase": "learning"
             },
             {
-                "time": 1776200451513,
+                "time": 1776201744184,
                 "doorId": 2,
                 "doorNumber": 2,
                 "doorSymbol": "cloud",
@@ -125,7 +27,7 @@
                 "phase": "learning"
             },
             {
-                "time": 1776200454547,
+                "time": 1776201746217,
                 "doorId": 3,
                 "doorNumber": 4,
                 "doorSymbol": "diamond",
@@ -137,7 +39,7 @@
                 "phase": "learning"
             },
             {
-                "time": 1776200456513,
+                "time": 1776201747417,
                 "doorId": 4,
                 "doorNumber": 3,
                 "doorSymbol": "heart",
@@ -149,7 +51,7 @@
                 "phase": "learning"
             },
             {
-                "time": 1776200459080,
+                "time": 1776201749452,
                 "doorId": 5,
                 "doorNumber": 5,
                 "doorSymbol": "triangle",
@@ -163,7 +65,7 @@
         ],
         "genAttempts": [
             {
-                "time": 1776200463395,
+                "time": 1776201752434,
                 "doorId": 201,
                 "doorNumber": 2,
                 "doorSymbol": "square",
@@ -175,7 +77,7 @@
                 "phase": "generalization_1"
             },
             {
-                "time": 1776200469946,
+                "time": 1776201755434,
                 "doorId": 202,
                 "doorNumber": 3,
                 "doorSymbol": "star",
@@ -187,19 +89,7 @@
                 "phase": "generalization_2"
             },
             {
-                "time": 1776200474212,
-                "doorId": 203,
-                "doorNumber": 6,
-                "doorSymbol": "circle",
-                "keyId": 2031,
-                "keyName": "greenheart",
-                "keyNumber": null,
-                "keySymbol": "heart",
-                "correct": false,
-                "phase": "generalization_3"
-            },
-            {
-                "time": 1776200475713,
+                "time": 1776201759233,
                 "doorId": 203,
                 "doorNumber": 6,
                 "doorSymbol": "circle",
@@ -211,7 +101,7 @@
                 "phase": "generalization_3"
             },
             {
-                "time": 1776200477595,
+                "time": 1776201760433,
                 "doorId": 203,
                 "doorNumber": 6,
                 "doorSymbol": "circle",
@@ -223,7 +113,43 @@
                 "phase": "generalization_3"
             },
             {
-                "time": 1776200481763,
+                "time": 1776201761567,
+                "doorId": 203,
+                "doorNumber": 6,
+                "doorSymbol": "circle",
+                "keyId": 2031,
+                "keyName": "greenheart",
+                "keyNumber": null,
+                "keySymbol": "heart",
+                "correct": false,
+                "phase": "generalization_3"
+            },
+            {
+                "time": 1776201765051,
+                "doorId": 204,
+                "doorNumber": 3,
+                "doorSymbol": "diamond",
+                "keyId": 2042,
+                "keyName": "diamondorange",
+                "keyNumber": null,
+                "keySymbol": "diamond",
+                "correct": false,
+                "phase": "generalization_4"
+            },
+            {
+                "time": 1776201766018,
+                "doorId": 204,
+                "doorNumber": 3,
+                "doorSymbol": "diamond",
+                "keyId": 2043,
+                "keyName": "green3",
+                "keyNumber": 3,
+                "keySymbol": null,
+                "correct": true,
+                "phase": "generalization_4"
+            },
+            {
+                "time": 1776201767318,
                 "doorId": 204,
                 "doorNumber": 3,
                 "doorSymbol": "diamond",
@@ -234,6 +160,10 @@
                 "correct": true,
                 "phase": "generalization_4"
             }
-        ]
+        ],
+        "rule_guess": "af",
+        "comments": "sadf",
+        "age": "25",
+        "gender": "Other"
     }
 }

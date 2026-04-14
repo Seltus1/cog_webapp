@@ -4,7 +4,6 @@ import ResultsScreen from './components/ResultsScreen';
 import Instructions from './components/Instructions';
 import WelcomeScreen from './components/WelcomeScreen';
 import { generateAppItems } from './scripts/environment.js'
-import { sendResultsToBackend } from './scripts/backend.js';
 import { oracle, HYPOTHESES } from './scripts/oracle.js';
 import './App.css';
 
@@ -34,12 +33,12 @@ function App() {
       }, 1000);
     } else if (timeLeft === 0) {
       clearInterval(interval);
-      sendResultsToBackend(attempts, genAttempts, currentHypothesis);
-      setStage('results');
-      setTimerActive(false);
+      setTimeout(() => {
+        setStage('results');
+        setTimerActive(false);
+      }, 0);
     }
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timerActive, timeLeft]); 
 
   const startExperiment = () => {
@@ -105,19 +104,16 @@ function App() {
       phase: isGenPhase ? `generalization_${currentGenTrialIndex + 1}` : 'learning'
     };
 
-    const updatedCurrentAttempts = handleAttempts(isGenPhase, newAttempt);
+    handleAttempts(isGenPhase, newAttempt);
     
     if (isCorrect && !targetDoor.isOpen) {
       if (isGenPhase) {
-        // Mark current gen door as open (locally in state if needed, but we mostly just advance)
         if (currentGenTrialIndex < genTrials.length - 1) {
           setTimeout(() => {
             setCurrentGenTrialIndex(prev => prev + 1);
             setSelectedKeyId(null);
           }, 1500);
         } else {
-          // Finished all generalization trials
-          sendResultsToBackend(attempts, updatedCurrentAttempts, currentHypothesis);
           setTimerActive(false);
           setTimeout(() => setStage('results'), 1500);
         }
@@ -187,6 +183,7 @@ function App() {
           doors={doors} 
           genAttempts={genAttempts} 
           onRetry={handleReset}
+          hypothesis={currentHypothesis}
         />
       )}
     </div>

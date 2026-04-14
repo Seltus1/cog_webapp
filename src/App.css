@@ -264,10 +264,71 @@ p {
   justify-content: space-between;
 }
 
-.boilerplate-text {
-  font-size: 0.9rem;
-  border-left: 4px solid var(--accent-color);
-  padding-left: 16px;
-  background: rgba(52, 152, 219, 0.05);
-  margin: 24px 0;
+.feedback-form {
+  margin-top: 40px;
+  border-top: 2px solid var(--primary-bg);
+  padding-top: 30px;
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.form-group textarea, .form-group input, .form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group textarea:focus, .form-group input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.submission-success {
+  text-align: center;
+  padding: 40px;
+  background: rgba(39, 174, 96, 0.05);
+  border-radius: 16px;
+  margin-top: 30px;
+}
+
+.submission-success p {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--success-color);
+}
+
+@media (max-width: 480px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
 }

@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { submitAllData } from '../scripts/backend';
 
-function ResultsScreen({ attempts, doors, genAttempts, onRetry }) {
+function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis }) {
+  const [formData, setFormData] = useState({
+    ruleGuess: '',
+    comments: '',
+    age: '',
+    gender: ''
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const totalAttempts = attempts.length + genAttempts.length;
   
   const attemptsPerDoor = attempts.reduce((acc, attempt) => {
@@ -8,41 +18,121 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry }) {
     return acc;
   }, {});
 
-  const totalGenAttempts = genAttempts.length;
+  const sanitize = (str) => {
+    if (!str) return '';
+    return str
+      .replace(/[<>]/g, '')
+      .trim();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.ruleGuess.trim()) return;
+
+    setIsSubmitting(true);
+
+    const fullPayload = {
+      hypothesis: hypothesis,
+      attempts: attempts,
+      genAttempts: genAttempts,
+      rule_guess: sanitize(formData.ruleGuess),
+      comments: sanitize(formData.comments),
+      age: sanitize(formData.age),
+      gender: formData.gender
+    };
+
+    const result = await submitAllData(fullPayload);
+    if (result) {
+      setSubmitted(true);
+    } else {
+      alert("There was an error submitting your results. Please try again.");
+    }
+    setIsSubmitting(false);
+  };
 
   return (
     <div className="results-screen">
       <h2>Experiment Complete</h2>
       
       <div className="boilerplate-text">
-        <p>Thank you for participating in this cognitive study. Your responses have been recorded and will contribute to our research on human rule inference and decision-making under uncertainty.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>If you have any questions regarding this study, please contact the lead researcher at: <strong>researcher@institution.com</strong></p>
+        <p>Thank you for participating. Your responses have been recorded for research on human rule inference.</p>
+        <p>If you have any questions, contact: <strong>researcher@institution.com</strong></p>
       </div>
 
       <div className="results-summary">
-        <h3>Summary of Your Session:</h3>
+        <h3>Performance Summary:</h3>
         <p><strong>Total Attempts:</strong> {totalAttempts}</p>
-
-        <h4>Phase 1: Learning</h4>
         <ul>
           {doors.map(door => (
             <li key={door.id}>
-              Door {door.id}: <strong>{attemptsPerDoor[door.id] || 0} attempts</strong>
+              Door {door.id}: {attemptsPerDoor[door.id] || 0} attempts
             </li>
           ))}
         </ul>
-
-        <h4>Phase 2: Generalization</h4>
-        <p>
-          Attempts on the novel door: <strong>{totalGenAttempts} attempts</strong>
-        </p>
+        <p>Generalization trials: {genAttempts.length} total attempts</p>
       </div>
 
-      <div className="retry-container">
-        <p>Would you like to try the experiment again?</p>
-        <button className="retry-button" onClick={onRetry}>Retry Experiment</button>
-      </div>
+      {!submitted ? (
+        <form className="feedback-form" onSubmit={handleSubmit}>
+          <h3>Post-Experiment Feedback</h3>
+          <p style={{fontSize: '0.85rem', color: '#666', marginBottom: '20px'}}>Please complete the feedback below to finalise and submit your results.</p>
+          
+          <div className="form-group">
+            <label>What do you think was the rule by which the doors open? *</label>
+            <textarea 
+              required
+              value={formData.ruleGuess}
+              onChange={(e) => setFormData({...formData, ruleGuess: e.target.value})}
+              placeholder="Enter your guess here..."
+            />
+          </div>
+
+          <div className="form-group">
+            <label>We value feedback, please share any comments you have about the experiment:</label>
+            <textarea 
+              value={formData.comments}
+              onChange={(e) => setFormData({...formData, comments: e.target.value})}
+              placeholder="Additional comments..."
+            />
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Age (Optional):</label>
+              <input 
+                type="text" 
+                value={formData.age}
+                onChange={(e) => setFormData({...formData, age: e.target.value})}
+                placeholder="e.g. 25"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Gender (Optional):</label>
+              <select 
+                value={formData.gender}
+                onChange={(e) => setFormData({...formData, gender: e.target.value})}
+              >
+                <option value="">Select...</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" className="start-button" disabled={isSubmitting}>
+            {isSubmitting ? "Submitting..." : "Submit All Results"}
+          </button>
+        </form>
+      ) : (
+        <div className="submission-success">
+          <p>✔️ Thank you! All data and feedback have been successfully submitted.</p>
+          <div className="retry-container">
+            <button className="retry-button" onClick={onRetry}>Retry Experiment</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

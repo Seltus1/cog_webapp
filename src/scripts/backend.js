@@ -1,19 +1,17 @@
-  export const sendResultsToBackend = async (phase1Attempts, phase2Attempts, hypothesis) => {
+  export const submitAllData = async (payload) => {
     try {
       const response = await fetch('http://localhost:8000/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          hypothesis: hypothesis,
-          attempts: phase1Attempts,
-          genAttempts: phase2Attempts,
-        }),
+        body: JSON.stringify(payload),
       });
       const data = await response.json();
-      console.log('Backend response:', data);
+      console.log('Submission success:', data);
+      return data;
     } catch (error) {
-      console.error('Error sending results to backend:', error);
+      console.error('Submission error:', error);
+      return null;
     }
   };
