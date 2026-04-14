@@ -1,21 +1,63 @@
 .App {
-  font-family: sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
+  color: #333;
+}
+
+.instructions {
+  background: #fdfdfd;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin-top: 40px;
+  text-align: left;
+}
+
+.instructions h1 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+.start-button {
+  display: block;
+  margin: 30px auto 0;
+  padding: 12px 30px;
+  font-size: 1.2rem;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.start-button:hover {
+  background-color: #219150;
 }
 
 .experiment-board {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
-.doors-container, .keys-container {
+.doors-container {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  margin: 20px 0;
+  gap: 30px;
+  margin: 40px 0;
   flex-wrap: wrap;
+}
+
+.keys-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 15px;
+  margin: 40px 0;
+  padding: 20px;
+  background: #f0f0f0;
+  border-radius: 8px;
 }
 
 .door {
@@ -23,76 +65,65 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  transition: transform 0.2s;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .door-visual {
-  width: 80px;
-  height: 120px;
+  width: 100px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 2px solid #333;
-  border-radius: 4px;
-  font-size: 24px;
+  border-radius: 6px;
+  font-size: 28px;
   color: white;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-}
-
-/* Specific fix for yellow to be more readable */
-.door-visual[style*="background-color: yellow"] {
-  background-color: #fbc02d !important; /* Darker amber/gold */
-}
-
-.key[style*="border-color: yellow"] {
-  border-color: #fbc02d !important;
-}
-
-.key-visual[style*="color: yellow"] {
-  color: #f57f17 !important; /* Even darker for text contrast */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  position: relative;
+  transition: all 0.3s;
 }
 
 .door.open .door-visual {
-  color: #333;
-  text-shadow: none;
-  border-style: dashed;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
-.door button {
-  padding: 8px 16px;
-  cursor: pointer;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-weight: bold;
+.feedback-icon {
+  position: absolute;
+  font-size: 50px;
+  z-index: 10;
+  animation: pop 0.5s ease-out;
+  pointer-events: none;
 }
 
-.door button:hover:not(:disabled) {
-  background-color: #e0e0e0;
-}
-
-.door button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
+@keyframes pop {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.5); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 .key {
   width: 60px;
   height: 60px;
-  border: 3px solid;
-  border-radius: 8px;
+  border: 4px solid;
+  border-radius: 50% 50% 10% 10%;
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  cursor: grab;
   transition: transform 0.1s, box-shadow 0.1s;
-  background-color: #f9f9f9;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.key:active {
+  cursor: grabbing;
 }
 
 .key:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 
 .key.selected {
@@ -108,13 +139,19 @@
   font-weight: bold;
 }
 
-.feedback-message {
-  height: 30px;
-  font-weight: bold;
-  font-size: 1.2rem;
+/* Color specific adjustments */
+.door-visual[style*="background-color: yellow"] {
+  background-color: #f1c40f !important;
   color: #333;
-  margin: 10px 0;
+  text-shadow: none;
 }
+.key[style*="border-color: yellow"] { border-color: #f1c40f !important; }
+.key-visual[style*="color: yellow"] { color: #d4ac0d !important; }
+
+.door-visual[style*="background-color: red"] { background-color: #e74c3c !important; }
+.door-visual[style*="background-color: blue"] { background-color: #3498db !important; }
+.door-visual[style*="background-color: green"] { background-color: #2ecc71 !important; }
+.door-visual[style*="background-color: purple"] { background-color: #9b59b6 !important; }
 
 .results-screen {
   text-align: left;
@@ -123,19 +160,4 @@
   border-radius: 8px;
   margin-top: 30px;
   border: 1px solid #dee2e6;
-}
-
-.results-screen h2 {
-  text-align: center;
-  margin-top: 0;
-}
-
-.results-summary ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.results-summary li {
-  padding: 5px 0;
-  border-bottom: 1px solid #eee;
 }

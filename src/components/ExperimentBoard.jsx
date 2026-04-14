@@ -12,7 +12,7 @@ function ExperimentBoard({ title, keys, doors, selectedKeyId, onSelectKey, onOpe
           <Door 
             key={door.id} 
             door={door} 
-            onOpen={() => onOpenDoor(door.id)} 
+            onDrop={onOpenDoor} 
           />
         ))}
       </div>
@@ -27,7 +27,7 @@ function ExperimentBoard({ title, keys, doors, selectedKeyId, onSelectKey, onOpe
             key={k.id} 
             item={k} 
             isSelected={selectedKeyId === k.id}
-            onSelect={() => onSelectKey(k.id)} 
+            onSelect={onSelectKey} 
           />
         ))}
       </div>

@@ -7,51 +7,47 @@ export function shuffle(array) {
 }
 
 export function generateAppItems() {
-  const sColorsKeys = shuffle(colors);
-  const sSymbolsKeys = shuffle(symbols);
-  const sNumbersKeys = shuffle(numbers);
+  // Generate 13 keys
+  // Each key has a color and either a symbol or a number
+  const keys = [];
+  let idCounter = 1;
   
-  const keys = sColorsKeys.map((color, i) => ({
+  // We want to cover all 5 colors. 13 keys / 5 colors ~= 2.6 keys per color.
+  // Let's distribute them roughly equally.
+  const colorDistribution = [3, 3, 3, 2, 2]; // Total 13
+  const shuffledColors = shuffle(colors);
+
+  shuffledColors.forEach((color, index) => {
+    const count = colorDistribution[index];
+    for (let i = 0; i < count; i++) {
+      const isSymbol = Math.random() > 0.5;
+      keys.push({
+        id: idCounter++,
+        color: color,
+        symbol: isSymbol ? symbols[Math.floor(Math.random() * symbols.length)] : null,
+        number: !isSymbol ? numbers[Math.floor(Math.random() * numbers.length)] : null
+      });
+    }
+  });
+
+  // Generate 5 doors
+  // For now doors have color, symbol and number
+  const doors = shuffle(colors).map((color, i) => ({
     id: i + 1,
     color,
-    symbol: sSymbolsKeys[i],
-    number: sNumbersKeys[i]
-  }));
-
-  const sColorsDoors = shuffle(colors);
-  const sSymbolsDoors = shuffle(symbols);
-  const sNumbersDoors = shuffle(numbers);
-  
-  const initialDoors = sColorsDoors.map((color, i) => ({
-    id: i + 1,
-    color,
-    symbol: sSymbolsDoors[i],
-    number: sNumbersDoors[i]
-  }));
-
-  // Random 1:1 mapping of keys to doors without duplicates
-  // This can be changed later based on some hypothesis
-  const shuffledKeyIds = shuffle(keys.map(k => k.id));
-  const doors = initialDoors.map((door, i) => ({
-    ...door,
-    correctKeyId: shuffledKeyIds[i],
+    symbol: symbols[Math.floor(Math.random() * symbols.length)],
+    number: numbers[Math.floor(Math.random() * numbers.length)],
     isOpen: false
   }));
 
-  let genDoor;
-  // Generate a random door for now
-  while (true) {
-    genDoor = {
-      id: 9,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      symbol: symbols[Math.floor(Math.random() * symbols.length)],
-      number: numbers[Math.floor(Math.random() * numbers.length)],
-      correctKeyId: keys[Math.floor(Math.random() * keys.length)].id,
-      isOpen: false
-    };
-    const isDuplicate = doors.some(d => d.color === genDoor.color && d.symbol === genDoor.symbol && d.number === genDoor.number);
-    if (!isDuplicate) break;
-  }
+  // Generalization door
+  const genDoor = {
+    id: 99,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    symbol: symbols[Math.floor(Math.random() * symbols.length)],
+    number: numbers[Math.floor(Math.random() * numbers.length)],
+    isOpen: false
+  };
 
-  return { keys, doors, genDoor };
+  return { keys: shuffle(keys), doors, genDoor };
 }
