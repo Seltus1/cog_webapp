@@ -4,12 +4,20 @@ import ResultsScreen from './components/ResultsScreen';
 import Instructions from './components/Instructions';
 import { generateAppItems } from './scripts/environment.js'
 import { sendResultsToBackend } from './scripts/backend.js';
-import { oracle } from './scripts/oracle.js';
+import { oracle, HYPOTHESES } from './scripts/oracle.js';
 import './App.css';
 
 
 function App() {
-  const [items] = useState(() => generateAppItems());
+  // 1. Determine hypothesis first
+  const [currentHypothesis] = useState(() => {
+    const keys = Object.values(HYPOTHESES);
+    return keys[Math.floor(Math.random() * keys.length)];
+  });
+
+  // 2. Generate items based on that hypothesis
+  const [items, setItems] = useState(() => generateAppItems());
+
   const [keys, setKeys] = useState(items.keys);
   const [doors, setDoors] = useState(items.doors);
   const [genDoor, setGenDoor] = useState(items.genDoor);
@@ -19,6 +27,18 @@ function App() {
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [stage, setStage] = useState('instructions'); // Instructions, then Experiment, then generalization then result page
 
+  const handleReset = () => {
+    const newItems = generateAppItems();
+    setItems(newItems);
+    setKeys(newItems.keys);
+    setDoors(newItems.doors);
+    setGenDoor(newItems.genDoor);
+    setAttempts([]);
+    setGenAttempts([]);
+    setStage('instructions');
+    setSelectedKeyId(null);
+    setFeedbackMessage('');
+  };
 
   const handleSelectKey = (keyId) => {
     setSelectedKeyId(keyId);
@@ -45,7 +65,8 @@ function App() {
     
     if (!selectedKey) return false;
 
-    const isCorrect = oracle.shouldOpen(selectedKey, targetDoor);
+    // Use the assigned hypothesis
+    const isCorrect = oracle.shouldOpen(selectedKey, targetDoor, currentHypothesis);
 
     const newAttempt = {
       time: Date.now(),
@@ -63,7 +84,7 @@ function App() {
     if (isCorrect && !targetDoor.isOpen) {
       if (isGenPhase) {
         setGenDoor({ ...genDoor, isOpen: true });
-        sendResultsToBackend(attempts, updatedCurrentAttempts);
+        sendResultsToBackend(attempts, updatedCurrentAttempts, currentHypothesis);
         setTimeout(() => setStage('results'), 1500);
       } else {
         const updatedDoors = doors.map(d => d.id === doorId ? { ...d, isOpen: true } : d);
@@ -114,7 +135,12 @@ function App() {
       )}
 
       {stage === 'results' && (
-        <ResultsScreen attempts={attempts} doors={doors} genDoor={genDoor} genAttempts={genAttempts} />
+        <ResultsScreen 
+          attempts={attempts} 
+          doors={doors} 
+          genAttempts={genAttempts} 
+          onRetry={handleReset}
+        />
       )}
     </div>
   );

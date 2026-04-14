@@ -1,4 +1,5 @@
 import React from 'react';
+import { symbolMap } from '../scripts/environment';
 
 function Key({ item, isSelected, onSelect }) {
   const handleDragStart = (e) => {
@@ -15,7 +16,7 @@ function Key({ item, isSelected, onSelect }) {
       style={{ borderColor: item.color }}
     >
       <div className="key-visual" style={{ color: item.color }}>
-        {item.symbol && <span className="key-symbol">{item.symbol}</span>}
+        {item.symbol && <span className="key-symbol">{symbolMap[item.symbol] || item.symbol}</span>}
         {item.number && <span className="key-number">{item.number}</span>}
       </div>
     </div>

@@ -1,4 +1,4 @@
-  export const sendResultsToBackend = async (phase1Attempts, phase2Attempts) => {
+  export const sendResultsToBackend = async (phase1Attempts, phase2Attempts, hypothesis) => {
     try {
       const response = await fetch('http://localhost:8000/submit', {
         method: 'POST',
@@ -6,6 +6,7 @@
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          hypothesis: hypothesis,
           attempts: phase1Attempts,
           genAttempts: phase2Attempts,
         }),
