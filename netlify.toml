@@ -3,14 +3,15 @@
   publish = "dist"
 
 [functions]
-  directory = "backend"
+  directory = "netlify/functions"
   node_bundler = "esbuild"
 
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/main/:splat"
+  from = "/api/submit"
+  to = "/.netlify/functions/submit"
   status = 200
 
-# This handles the Python environment for Netlify
-[functions."main"]
-  runtime = "python"
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
