@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="200" viewBox="0 0 120 200">
+  <!-- Door body -->
+  <rect x="5" y="5" width="110" height="190" rx="5" fill="#8030c0" stroke="#501080" stroke-width="3"/>
+  <!-- Doorknob -->
+  <circle cx="91" cy="100" r="5" fill="#501080" opacity="0.6"/>
+  <!-- Heart 1 at (60, 72) -->
+  <g transform="translate(60,72)">
+    <path d="M0,15 C-5,10 -18,5 -18,-3 C-18,-12 -10,-16 0,-10 C10,-16 18,-12 18,-3 C18,5 5,10 0,15 Z" fill="white"/>
+    <text x="0" y="-1" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#8030c0" text-anchor="middle">1</text>
+  </g>
+  <!-- Heart 2 at (35, 135) -->
+  <g transform="translate(35,135)">
+    <path d="M0,15 C-5,10 -18,5 -18,-3 C-18,-12 -10,-16 0,-10 C10,-16 18,-12 18,-3 C18,5 5,10 0,15 Z" fill="white"/>
+    <text x="0" y="-1" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#8030c0" text-anchor="middle">2</text>
+  </g>
+  <!-- Heart 3 at (85, 135) -->
+  <g transform="translate(85,135)">
+    <path d="M0,15 C-5,10 -18,5 -18,-3 C-18,-12 -10,-16 0,-10 C10,-16 18,-12 18,-3 C18,5 5,10 0,15 Z" fill="white"/>
+    <text x="0" y="-1" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#8030c0" text-anchor="middle">3</text>
+  </g>
+</svg>

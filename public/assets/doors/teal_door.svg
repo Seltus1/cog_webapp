@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="200" viewBox="0 0 120 200">
+  <!-- Door body -->
+  <rect x="5" y="5" width="110" height="190" rx="5" fill="#00c8c8" stroke="#009090" stroke-width="3"/>
+  <!-- Doorknob -->
+  <circle cx="91" cy="107" r="5" fill="#009090" opacity="0.6"/>
+  <!-- Row 1: Triangles 1, 2, 3 at y=78 -->
+  <!-- Triangle 1 at (27, 78): half-width=15, top at y=60, base at y=90 -->
+  <polygon points="27,60 42,90 12,90" fill="white"/>
+  <text x="27" y="85" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#00c8c8" text-anchor="middle">1</text>
+  <!-- Triangle 2 at (60, 78) -->
+  <polygon points="60,60 75,90 45,90" fill="white"/>
+  <text x="60" y="85" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#00c8c8" text-anchor="middle">2</text>
+  <!-- Triangle 3 at (93, 78) -->
+  <polygon points="93,60 108,90 78,90" fill="white"/>
+  <text x="93" y="85" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#00c8c8" text-anchor="middle">3</text>
+  <!-- Row 2: Triangles 4, 5 at y=142 -->
+  <!-- Triangle 4 at (42, 142) -->
+  <polygon points="42,124 57,154 27,154" fill="white"/>
+  <text x="42" y="149" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#00c8c8" text-anchor="middle">4</text>
+  <!-- Triangle 5 at (78, 142) -->
+  <polygon points="78,124 93,154 63,154" fill="white"/>
+  <text x="78" y="149" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#00c8c8" text-anchor="middle">5</text>
+</svg>
