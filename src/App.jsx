@@ -30,7 +30,7 @@ function App() {
   const [attempts, setAttempts] = useState([]);
   const [genAttempts, setGenAttempts] = useState([]);
   const [feedbackMessage, setFeedbackMessage] = useState('');
-  const [stage, setStage] = useState('welcome'); // Welcome, Instructions, Experiment, Generalization, Results
+  const [stage, setStage] = useState('welcome'); // Welcome, Instructions, Experiment, Transition, Generalization, Results
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
   const [timerActive, setTimerActive] = useState(false);
   const [submitted, setSubmitted] = useState(false); // New state to track final submission
@@ -100,7 +100,11 @@ function App() {
     setFeedbackMessage('');
   };
 
+  const [isTransitioning, setIsTransitioning] = useState(false); // Guard for trial transitions
+
   const handleOpenDoor = (doorId, keyId) => {
+    if (isTransitioning) return false; // Prevent double-clicks during timeouts
+
     const isGenPhase = stage === 'generalization';
     const currentGenTrial = genTrials[currentGenTrialIndex];
     
@@ -132,8 +136,7 @@ function App() {
       setAttempts(prev => [...prev, newAttempt]);
     }
 
-    // PARTIAL SAVE: Every time someone tries a door, we send the current progress
-    // Only send if we haven't already finished the experiment
+    // PARTIAL SAVE
     if (!submitted) {
         const partialPayload = {
             session_id: sessionId,
@@ -145,27 +148,35 @@ function App() {
         submitAllData(partialPayload);
     }
     
-    if (isCorrect && !targetDoor.isOpen) {
-      if (isGenPhase) {
-        if (currentGenTrialIndex < genTrials.length - 1) {
-          setTimeout(() => {
-            setCurrentGenTrialIndex(prev => prev + 1);
-            setSelectedKeyId(null);
-          }, 1500);
-        } else {
-          setTimerActive(false);
-          setTimeout(() => setStage('results'), 1500);
-        }
+    if (isGenPhase) {
+      // In Generalization, we move forward REGARDLESS of correctness after 1 attempt
+      setIsTransitioning(true);
+      if (currentGenTrialIndex < genTrials.length - 1) {
+        setTimeout(() => {
+          setCurrentGenTrialIndex(prev => prev + 1);
+          setSelectedKeyId(null);
+          setIsTransitioning(false);
+        }, 1500);
       } else {
-        const updatedDoors = doors.map(d => d.id === doorId ? { ...d, isOpen: true } : d);
-        setDoors(updatedDoors);
-        
-        if (updatedDoors.every(d => d.isOpen)) {
-          setTimeout(() => {
-            setStage('generalization');
-            setSelectedKeyId(null);
-          }, 1500);
-        }
+        setTimerActive(false);
+        setTimeout(() => {
+          setStage('results');
+          setIsTransitioning(false);
+        }, 1500);
+      }
+    } else if (isCorrect && !targetDoor.isOpen) {
+      // Phase 1: Only advance/open if correct
+      const updatedDoors = doors.map(d => d.id === doorId ? { ...d, isOpen: true } : d);
+      setDoors(updatedDoors);
+      
+      if (updatedDoors.every(d => d.isOpen)) {
+        setTimerActive(false);
+        setIsTransitioning(true);
+        setTimeout(() => {
+          setStage('transition');
+          setSelectedKeyId(null);
+          setIsTransitioning(false);
+        }, 1500);
       }
     }
 
@@ -182,7 +193,7 @@ function App() {
 
   return (
     <div className="App">
-      {timerActive && <div className="timer">Time Remaining: {formatTime(timeLeft)}</div>}
+      {timerActive && stage === 'experiment' && <div className="timer">Time Remaining: {formatTime(timeLeft)}</div>}
       
       {stage === 'welcome' && (
         <WelcomeScreen onNext={() => setStage('instructions')} />
@@ -202,6 +213,16 @@ function App() {
           onOpenDoor={handleOpenDoor}
           feedbackMessage={feedbackMessage}
         />
+      )}
+
+      {stage === 'transition' && (
+        <div className="welcome-screen">
+          <h2>Great, you are done!</h2>
+          <p>Next we will show you four new doors, along with a new set of keys. This time there will be no feedback. Please select the key that you think is most likely to open the door.</p>
+          <button className="start-button" onClick={() => setStage('generalization')}>
+            Continue to Phase 2
+          </button>
+        </div>
       )}
 
       {stage === 'generalization' && (

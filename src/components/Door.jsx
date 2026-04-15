@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
 
-function Door({ door, onDrop }) {
-  const [feedback, setFeedback] = useState(null); // 'correct' or 'incorrect'
+function Door({ door, onDrop, selectedKeyId, isGenPhase }) {
+  const [feedback, setFeedback] = useState(null);
 
+  // Handle traditional Drag and Drop (PC)
   const handleDragOver = (e) => {
     e.preventDefault();
   };
 
-  const handleDrop = (e) => {
+  const handleDropEvent = (e) => {
     e.preventDefault();
     const keyId = e.dataTransfer.getData('keyId');
-    const isCorrect = onDrop(door.id, parseInt(keyId));
+    if (!keyId) return;
     
-    setFeedback(isCorrect ? 'correct' : 'incorrect');
+    const isCorrect = onDrop(door.id, parseInt(keyId));
+    setFeedback(isGenPhase ? 'neutral' : (isCorrect ? 'correct' : 'incorrect'));
+    setTimeout(() => setFeedback(null), 1000);
+  };
+
+  // Handle Click-to-Select (Mobile)
+  const handleClick = (e) => {
+    if (!selectedKeyId) return;
+    
+    const isCorrect = onDrop(door.id, selectedKeyId);
+    setFeedback(isGenPhase ? 'neutral' : (isCorrect ? 'correct' : 'incorrect'));
     setTimeout(() => setFeedback(null), 1000);
   };
 
@@ -20,19 +31,20 @@ function Door({ door, onDrop }) {
 
   return (
     <div 
-      className={`door ${door.isOpen ? 'open' : 'closed'} ${feedback ? `feedback-${feedback}` : ''}`}
+      className={`door ${door.isOpen ? 'open' : 'closed'} ${feedback ? `feedback-${feedback}` : ''} ${selectedKeyId ? 'can-interact' : ''}`}
+      onClick={handleClick}
       onDragOver={handleDragOver}
-      onDrop={handleDrop}
+      onDrop={handleDropEvent}
       style={{ 
-        border: door.isOpen ? '6px solid #2ecc71' : 'none'
+        border: (door.isOpen && !isGenPhase) ? '6px solid #2ecc71' : 'none'
       }}
     >
       <div className="door-visual">
         <img src={doorAssetPath} alt={`${door.color} door`} className="door-image" />
         {feedback === 'correct' && <div className="feedback-icon correct">✔️</div>}
         {feedback === 'incorrect' && <div className="feedback-icon incorrect">❌</div>}
+        {feedback === 'neutral' && <div className="feedback-icon neutral">👍</div>}
       </div>
-      <div className="door-label">{door.color.charAt(0).toUpperCase() + door.color.slice(1)} Door</div>
     </div>
   );
 }
