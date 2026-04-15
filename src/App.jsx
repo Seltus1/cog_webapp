@@ -135,6 +135,7 @@ function App() {
       time_since_stage_start: now - stageStartTime,
       time_since_last_action: now - lastActionTime,
       doorId,
+      doorName: targetDoor.name,
       doorNumber: targetDoor.number,
       doorSymbol: targetDoor.symbol,
       keyId: selectedKey.id,
