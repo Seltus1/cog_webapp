@@ -33,27 +33,30 @@ function App() {
   const [stage, setStage] = useState('welcome'); // Welcome, Instructions, Experiment, Generalization, Results
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
   const [timerActive, setTimerActive] = useState(false);
+  const [submitted, setSubmitted] = useState(false); // New state to track final submission
 
   // Handle the "Final Breath" save when the window closes
   useEffect(() => {
+    // If they already clicked the final submit button, DON'T send an emergency update
+    if (submitted) return;
+
     const handleBeforeUnload = () => {
       const emergencyPayload = {
         session_id: sessionId,
         hypothesis: currentHypothesis,
         attempts: attempts,
         genAttempts: genAttempts,
-        rule_guess: "CLOSED_TAB", // Tag as closed tab
+        rule_guess: "CLOSED_TAB",
         comments: "Automatic save from browser exit"
       };
       
-      // Use navigator.sendBeacon for a reliable last-second request
       const blob = new Blob([JSON.stringify(emergencyPayload)], { type: 'application/json' });
       navigator.sendBeacon('/api/submit', blob);
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, [attempts, genAttempts, currentHypothesis, sessionId]);
+  }, [attempts, genAttempts, currentHypothesis, sessionId, submitted]);
 
   useEffect(() => {
     let interval = null;
@@ -130,15 +133,17 @@ function App() {
     }
 
     // PARTIAL SAVE: Every time someone tries a door, we send the current progress
-    // This way if they crash, we have everything up to the last move.
-    const partialPayload = {
-        session_id: sessionId,
-        hypothesis: currentHypothesis,
-        attempts: isGenPhase ? attempts : [...attempts, newAttempt],
-        genAttempts: isGenPhase ? [...genAttempts, newAttempt] : genAttempts,
-        rule_guess: "PARTIAL_INCOMPLETE"
-    };
-    submitAllData(partialPayload);
+    // Only send if we haven't already finished the experiment
+    if (!submitted) {
+        const partialPayload = {
+            session_id: sessionId,
+            hypothesis: currentHypothesis,
+            attempts: isGenPhase ? attempts : [...attempts, newAttempt],
+            genAttempts: isGenPhase ? [...genAttempts, newAttempt] : genAttempts,
+            rule_guess: "PARTIAL_INCOMPLETE"
+        };
+        submitAllData(partialPayload);
+    }
     
     if (isCorrect && !targetDoor.isOpen) {
       if (isGenPhase) {
@@ -218,7 +223,9 @@ function App() {
           genAttempts={genAttempts} 
           onRetry={handleReset}
           hypothesis={currentHypothesis}
-          sessionId={sessionId} // Pass down the ID
+          sessionId={sessionId}
+          submitted={submitted}
+          setSubmitted={setSubmitted}
         />
       )}
     </div>

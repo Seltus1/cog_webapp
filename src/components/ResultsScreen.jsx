@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { submitAllData } from '../scripts/backend';
 
-function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sessionId }) {
+function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sessionId, submitted, setSubmitted }) {
   const [formData, setFormData] = useState({
     ruleGuess: '',
     comments: '',
     age: '',
     gender: ''
   });
-  const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const totalAttempts = attempts.length + genAttempts.length;
