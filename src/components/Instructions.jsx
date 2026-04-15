@@ -13,9 +13,9 @@ function Instructions({ onStart }) {
 
       <div className="instruction-details">
         <ul>
-          <li><strong>Doors:</strong> Each door has a color and specific geometric symbols.</li>
-          <li><strong>Keys:</strong> Each key has a color, numerical value, or symbolic marker.</li>
-          <li><strong>Interaction:</strong> Drag a key and drop it onto a door. Visual indicators (✔️/❌) provide feedback.</li>
+          <li><strong>Doors:</strong> Each door has a color and shape.</li>
+          <li><strong>Keys:</strong> Each key has a color, and either a number or a shape.</li>
+          <li><strong>Interaction:</strong> To try opening doors, drag a key and drop it onto a door.</li>
         </ul>
       </div>
 

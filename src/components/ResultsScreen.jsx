@@ -52,7 +52,7 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
 
   return (
     <div className="results-screen">
-      <h2>Experiment Complete</h2>
+      <h2>Experiment Complete!</h2>
       
       {!submitted ? (
         <form className="feedback-form" onSubmit={handleSubmit}>
@@ -124,11 +124,11 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
       <hr style={{margin: '30px 0', opacity: 0.2}} />
 
       <div className="boilerplate-text">
-        <p>Thank you for participating. Your responses have been recorded for research on human rule inference.</p>
-        <p>If you have any questions, contact: <strong>researcher@institution.com</strong></p>
+        <p>Thank you! This puzzle is part of a research study on how people infer logical rules.</p>
+        <p>If you have any questions, contact: <strong>farzin.ahmadi@dal.ca</strong></p>
       </div>
 
-      <div className="results-summary">
+      {/* <div className="results-summary">
         <h3>Performance Summary:</h3>
         <p><strong>Total Attempts:</strong> {totalAttempts}</p>
         <ul>
@@ -139,7 +139,7 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
           ))}
         </ul>
         <p>Generalization trials: {genAttempts.length} total attempts</p>
-      </div>
+      </div> */}
     </div>
   );
 }
