@@ -54,36 +54,23 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis }) {
     <div className="results-screen">
       <h2>Experiment Complete</h2>
       
-      <div className="boilerplate-text">
-        <p>Thank you for participating. Your responses have been recorded for research on human rule inference.</p>
-        <p>If you have any questions, contact: <strong>researcher@institution.com</strong></p>
-      </div>
-
-      <div className="results-summary">
-        <h3>Performance Summary:</h3>
-        <p><strong>Total Attempts:</strong> {totalAttempts}</p>
-        <ul>
-          {doors.map(door => (
-            <li key={door.id}>
-              Door {door.id}: {attemptsPerDoor[door.id] || 0} attempts
-            </li>
-          ))}
-        </ul>
-        <p>Generalization trials: {genAttempts.length} total attempts</p>
-      </div>
-
       {!submitted ? (
         <form className="feedback-form" onSubmit={handleSubmit}>
           <h3>Post-Experiment Feedback</h3>
-          <p style={{fontSize: '0.85rem', color: '#666', marginBottom: '20px'}}>Please complete the feedback below to finalise and submit your results.</p>
+          <p style={{fontSize: '0.9rem', color: '#d32f2f', fontWeight: 'bold', marginBottom: '20px'}}>
+            * Please complete the mandatory field below to finalise and submit your results.
+          </p>
           
           <div className="form-group">
-            <label>What do you think was the rule by which the doors open? *</label>
+            <label style={{fontWeight: 'bold'}}>
+              What do you think was the rule by which the doors open? <span style={{color: '#d32f2f'}}>*</span>
+            </label>
             <textarea 
               required
               value={formData.ruleGuess}
               onChange={(e) => setFormData({...formData, ruleGuess: e.target.value})}
               placeholder="Enter your guess here..."
+              style={{border: '2px solid #ccc', borderRadius: '4px', padding: '10px'}}
             />
           </div>
 
@@ -133,6 +120,26 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis }) {
           </div>
         </div>
       )}
+
+      <hr style={{margin: '30px 0', opacity: 0.2}} />
+
+      <div className="boilerplate-text">
+        <p>Thank you for participating. Your responses have been recorded for research on human rule inference.</p>
+        <p>If you have any questions, contact: <strong>researcher@institution.com</strong></p>
+      </div>
+
+      <div className="results-summary">
+        <h3>Performance Summary:</h3>
+        <p><strong>Total Attempts:</strong> {totalAttempts}</p>
+        <ul>
+          {doors.map(door => (
+            <li key={door.id}>
+              Door {door.id}: {attemptsPerDoor[door.id] || 0} attempts
+            </li>
+          ))}
+        </ul>
+        <p>Generalization trials: {genAttempts.length} total attempts</p>
+      </div>
     </div>
   );
 }

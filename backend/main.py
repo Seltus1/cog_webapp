@@ -7,6 +7,7 @@ import os
 from supabase import create_client, Client
 from mangum import Mangum
 from dotenv import load_dotenv
+import json
 
 # Load environment variables (for local dev)
 load_dotenv()
@@ -45,10 +46,10 @@ class Attempt(BaseModel):
     phase: Optional[str] = None
 
 class ExperimentData(BaseModel):
+    rule_guess: str
     hypothesis: str
     attempts: List[Attempt]
     genAttempts: List[Attempt]
-    rule_guess: Optional[str] = None
     comments: Optional[str] = None
     age: Optional[str] = None
     gender: Optional[str] = None
@@ -72,7 +73,9 @@ async def save_to_supabase(session_id, data: dict):
 @app.post("/submit")
 async def submit_results(data: ExperimentData):
     session_id = str(uuid.uuid4())
-    payload = data.dict()
+    # data.json() ensures all nested objects (attempts, genAttempts) are serialized correctly
+    # then json.loads() converts the JSON string back to a pure Python dict for Supabase
+    payload = json.loads(data.json())
     
     print(f"Received complete data for session {session_id}")
     
