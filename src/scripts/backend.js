@@ -1,6 +1,6 @@
   export const submitAllData = async (payload) => {
     try {
-      const response = await fetch('http://localhost:8000/submit', {
+      const response = await fetch('/api/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

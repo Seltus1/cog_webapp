@@ -32,13 +32,13 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis }) {
     setIsSubmitting(true);
 
     const fullPayload = {
-      hypothesis: hypothesis,
-      attempts: attempts,
-      genAttempts: genAttempts,
       rule_guess: sanitize(formData.ruleGuess),
       comments: sanitize(formData.comments),
       age: sanitize(formData.age),
-      gender: formData.gender
+      gender: formData.gender,
+      hypothesis: hypothesis,
+      attempts: attempts,
+      genAttempts: genAttempts
     };
 
     const result = await submitAllData(fullPayload);
