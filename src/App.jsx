@@ -18,6 +18,10 @@ const generateSessionId = () => {
 
 function App() {
   const [sessionId] = useState(() => generateSessionId());
+  const [appStartTime] = useState(() => Date.now()); // Overall app load time
+  const [stageStartTime, setStageStartTime] = useState(() => Date.now()); // When current stage started
+  const [lastActionTime, setLastActionTime] = useState(() => Date.now()); // Time of last click/action
+  
   const [currentHypothesis] = useState(HYPOTHESES.NUMBER_MATCH);
 
   const [items, setItems] = useState(() => generateAppItems());
@@ -75,11 +79,15 @@ function App() {
   }, [timerActive, timeLeft]); 
 
   const startExperiment = () => {
+    const now = Date.now();
     setStage('experiment');
     setTimerActive(true);
+    setStageStartTime(now);
+    setLastActionTime(now);
   };
 
   const handleReset = () => {
+    const now = Date.now();
     const newItems = generateAppItems();
     setItems(newItems);
     setKeys(newItems.keys);
@@ -93,11 +101,15 @@ function App() {
     setFeedbackMessage('');
     setTimeLeft(300);
     setTimerActive(false);
+    setStageStartTime(now);
+    setLastActionTime(now);
   };
 
   const handleSelectKey = (keyId) => {
     setSelectedKeyId(keyId);
     setFeedbackMessage('');
+    // Optionally track latency of key selection too? 
+    // For now we just use the final door click as the action time.
   };
 
   const [isTransitioning, setIsTransitioning] = useState(false); // Guard for trial transitions
@@ -114,10 +126,14 @@ function App() {
     
     if (!selectedKey) return false;
 
+    const now = Date.now();
     const isCorrect = oracle.shouldOpen(selectedKey, targetDoor, currentHypothesis);
 
     const newAttempt = {
-      time: Date.now(),
+      time: now,
+      time_since_app_start: now - appStartTime,
+      time_since_stage_start: now - stageStartTime,
+      time_since_last_action: now - lastActionTime,
       doorId,
       doorNumber: targetDoor.number,
       doorSymbol: targetDoor.symbol,
@@ -128,6 +144,8 @@ function App() {
       correct: isCorrect,
       phase: isGenPhase ? `generalization_${currentGenTrialIndex + 1}` : 'learning'
     };
+
+    setLastActionTime(now); // Reset for the next action
 
     // Update attempts state locally
     if (isGenPhase) {
@@ -153,9 +171,12 @@ function App() {
       setIsTransitioning(true);
       if (currentGenTrialIndex < genTrials.length - 1) {
         setTimeout(() => {
+          const transitionNow = Date.now();
           setCurrentGenTrialIndex(prev => prev + 1);
           setSelectedKeyId(null);
           setIsTransitioning(false);
+          setStageStartTime(transitionNow); // Reset for new trial
+          setLastActionTime(transitionNow);
         }, 1500);
       } else {
         setTimerActive(false);
@@ -173,9 +194,12 @@ function App() {
         setTimerActive(false);
         setIsTransitioning(true);
         setTimeout(() => {
+          const transitionNow = Date.now();
           setStage('transition');
           setSelectedKeyId(null);
           setIsTransitioning(false);
+          setStageStartTime(transitionNow);
+          setLastActionTime(transitionNow);
         }, 1500);
       }
     }
@@ -219,7 +243,12 @@ function App() {
         <div className="welcome-screen">
           <h2>Great, you are done!</h2>
           <p>Next we will show you four new doors, along with a new set of keys. This time there will be no feedback. Please select the key that you think is most likely to open the door.</p>
-          <button className="start-button" onClick={() => setStage('generalization')}>
+          <button className="start-button" onClick={() => {
+            const now = Date.now();
+            setStage('generalization');
+            setStageStartTime(now);
+            setLastActionTime(now);
+          }}>
             Continue to Phase 2
           </button>
         </div>
