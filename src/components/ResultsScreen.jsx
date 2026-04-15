@@ -115,9 +115,6 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
       ) : (
         <div className="submission-success">
           <p>✔️ Thank you! All data and feedback have been successfully submitted.</p>
-          <div className="retry-container">
-            <button className="retry-button" onClick={onRetry}>Retry Experiment</button>
-          </div>
         </div>
       )}
 
