@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { submitAllData } from '../scripts/backend';
 
-function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis }) {
+function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sessionId }) {
   const [formData, setFormData] = useState({
     ruleGuess: '',
     comments: '',
@@ -32,6 +32,7 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis }) {
     setIsSubmitting(true);
 
     const fullPayload = {
+      session_id: sessionId, // Use the persistent ID
       rule_guess: sanitize(formData.ruleGuess),
       comments: sanitize(formData.comments),
       age: sanitize(formData.age),

@@ -5,10 +5,19 @@ import Instructions from './components/Instructions';
 import WelcomeScreen from './components/WelcomeScreen';
 import { generateAppItems } from './scripts/environment.js'
 import { oracle, HYPOTHESES } from './scripts/oracle.js';
+import { submitAllData } from './scripts/backend';
 import './App.css';
 
+// Simple UUID generator for the session
+const generateSessionId = () => {
+  return 'xxxx-xxxx-4xxx-yxxx-xxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+};
 
 function App() {
+  const [sessionId] = useState(() => generateSessionId());
   const [currentHypothesis] = useState(HYPOTHESES.NUMBER_MATCH);
 
   const [items, setItems] = useState(() => generateAppItems());
@@ -24,6 +33,27 @@ function App() {
   const [stage, setStage] = useState('welcome'); // Welcome, Instructions, Experiment, Generalization, Results
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
   const [timerActive, setTimerActive] = useState(false);
+
+  // Handle the "Final Breath" save when the window closes
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      const emergencyPayload = {
+        session_id: sessionId,
+        hypothesis: currentHypothesis,
+        attempts: attempts,
+        genAttempts: genAttempts,
+        rule_guess: "CLOSED_TAB", // Tag as closed tab
+        comments: "Automatic save from browser exit"
+      };
+      
+      // Use navigator.sendBeacon for a reliable last-second request
+      const blob = new Blob([JSON.stringify(emergencyPayload)], { type: 'application/json' });
+      navigator.sendBeacon('/api/submit', blob);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [attempts, genAttempts, currentHypothesis, sessionId]);
 
   useEffect(() => {
     let interval = null;
@@ -67,18 +97,6 @@ function App() {
     setFeedbackMessage('');
   };
 
-  const handleAttempts = (phase, newAttempt) => {
-    if (phase) {
-      const newAttempts = [...genAttempts, newAttempt];
-      setGenAttempts(newAttempts);
-      return newAttempts;
-    } else {
-      const newAttempts = [...attempts, newAttempt];
-      setAttempts(newAttempts);
-      return newAttempts;
-    }
-  }
-
   const handleOpenDoor = (doorId, keyId) => {
     const isGenPhase = stage === 'generalization';
     const currentGenTrial = genTrials[currentGenTrialIndex];
@@ -104,7 +122,23 @@ function App() {
       phase: isGenPhase ? `generalization_${currentGenTrialIndex + 1}` : 'learning'
     };
 
-    handleAttempts(isGenPhase, newAttempt);
+    // Update attempts state locally
+    if (isGenPhase) {
+      setGenAttempts(prev => [...prev, newAttempt]);
+    } else {
+      setAttempts(prev => [...prev, newAttempt]);
+    }
+
+    // PARTIAL SAVE: Every time someone tries a door, we send the current progress
+    // This way if they crash, we have everything up to the last move.
+    const partialPayload = {
+        session_id: sessionId,
+        hypothesis: currentHypothesis,
+        attempts: isGenPhase ? attempts : [...attempts, newAttempt],
+        genAttempts: isGenPhase ? [...genAttempts, newAttempt] : genAttempts,
+        rule_guess: "PARTIAL_INCOMPLETE"
+    };
+    submitAllData(partialPayload);
     
     if (isCorrect && !targetDoor.isOpen) {
       if (isGenPhase) {
@@ -184,6 +218,7 @@ function App() {
           genAttempts={genAttempts} 
           onRetry={handleReset}
           hypothesis={currentHypothesis}
+          sessionId={sessionId} // Pass down the ID
         />
       )}
     </div>

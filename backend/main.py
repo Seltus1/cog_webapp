@@ -2,29 +2,25 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
-import uuid
 import os
+import json
 from supabase import create_client, Client
 from mangum import Mangum
 from dotenv import load_dotenv
-import json
 
-# Load environment variables (for local dev)
+# Load environment variables
 load_dotenv()
 
-# Supabase configuration
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_ANON_KEY")
 
 if SUPABASE_URL and SUPABASE_KEY:
     supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 else:
-    print("Warning: Supabase credentials not found. DB storage will fail.")
+    print("Warning: Supabase credentials not found.")
 
 app = FastAPI()
 
-# Configure CORS
-# For local dev, allow all. For production, you could restrict this to your Netlify URL.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -46,51 +42,39 @@ class Attempt(BaseModel):
     phase: Optional[str] = None
 
 class ExperimentData(BaseModel):
-    rule_guess: str
+    session_id: str  # Now sent from frontend
     hypothesis: str
     attempts: List[Attempt]
     genAttempts: List[Attempt]
+    rule_guess: Optional[str] = "N/A" # Default to N/A for partial saves
     comments: Optional[str] = None
     age: Optional[str] = None
     gender: Optional[str] = None
 
-async def save_to_supabase(session_id, data: dict):
-    if not supabase:
-        print("Supabase client not initialized.")
-        return False
+async def upsert_to_supabase(data: dict):
+    if not supabase: return False
     
-    # Add the session_id into the data object so it's still saved
-    data["session_id"] = session_id
-    
-    # Only insert into the 'data' column. 
-    # This assumes your 'id' column in Supabase is set to 'Identity' (auto-incrementing bigint).
-    response = supabase.table("experiments").insert({
+    # .upsert() looks for a unique column (session_id) and updates if found
+    # Make sure 'session_id' is marked as UNIQUE in your Supabase table schema!
+    response = supabase.table("experiments").upsert({
+        "session_id": data["session_id"], 
         "data": data
-    }).execute()
+    }, on_conflict="session_id").execute()
     
     return response
 
 @app.post("/submit")
 async def submit_results(data: ExperimentData):
-    session_id = str(uuid.uuid4())
-    # data.json() ensures all nested objects (attempts, genAttempts) are serialized correctly
-    # then json.loads() converts the JSON string back to a pure Python dict for Supabase
     payload = json.loads(data.json())
-    
-    print(f"Received complete data for session {session_id}")
-    
-    # Save to Supabase
     try:
-        await save_to_supabase(session_id, payload)
-        return {"status": "success", "uuid": session_id}
+        await upsert_to_supabase(payload)
+        return {"status": "success", "session_id": data.session_id}
     except Exception as e:
-        print(f"Error saving to Supabase: {e}")
+        print(f"Error: {e}")
         return {"status": "error", "message": str(e)}, 500
 
-# This is the entry point for Netlify Functions
 handler = Mangum(app)
 
 if __name__ == "__main__":
     import uvicorn
-    # Local dev still works with: python main.py
     uvicorn.run(app, host="0.0.0.0", port=8000)
