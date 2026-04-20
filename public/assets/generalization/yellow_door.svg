@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="200" viewBox="0 0 120 200">
+  <!-- Door body -->
+  <rect x="5" y="5" width="110" height="190" rx="5" fill="#f0d000" stroke="#a08000" stroke-width="3"/>
+  <!-- Doorknob -->
+  <circle cx="91" cy="100" r="5" fill="#a08000" opacity="0.6"/>
+  <!-- Diamond 1 at (60, 70): half-width=15, half-height=17 -->
+  <polygon points="60,53 75,70 60,87 45,70" fill="white"/>
+  <text x="60" y="75" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#a08000" text-anchor="middle">1</text>
+  <!-- Diamond 2 at (35, 140) -->
+  <polygon points="35,123 50,140 35,157 20,140" fill="white"/>
+  <text x="35" y="145" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#a08000" text-anchor="middle">2</text>
+  <!-- Diamond 3 at (85, 140) -->
+  <polygon points="85,123 100,140 85,157 70,140" fill="white"/>
+  <text x="85" y="145" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#a08000" text-anchor="middle">3</text>
+</svg>

@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { submitAllData } from '../scripts/backend';
 
-function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis }) {
+function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sessionId, submitted, setSubmitted }) {
   const [formData, setFormData] = useState({
     ruleGuess: '',
     comments: '',
     age: '',
     gender: ''
   });
-  const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const totalAttempts = attempts.length + genAttempts.length;
@@ -32,13 +31,14 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis }) {
     setIsSubmitting(true);
 
     const fullPayload = {
-      hypothesis: hypothesis,
-      attempts: attempts,
-      genAttempts: genAttempts,
+      session_id: sessionId, // Use the persistent ID
       rule_guess: sanitize(formData.ruleGuess),
       comments: sanitize(formData.comments),
       age: sanitize(formData.age),
-      gender: formData.gender
+      gender: formData.gender,
+      hypothesis: hypothesis,
+      attempts: attempts,
+      genAttempts: genAttempts
     };
 
     const result = await submitAllData(fullPayload);
@@ -52,38 +52,25 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis }) {
 
   return (
     <div className="results-screen">
-      <h2>Experiment Complete</h2>
+      <h2>Experiment Complete!</h2>
       
-      <div className="boilerplate-text">
-        <p>Thank you for participating. Your responses have been recorded for research on human rule inference.</p>
-        <p>If you have any questions, contact: <strong>researcher@institution.com</strong></p>
-      </div>
-
-      <div className="results-summary">
-        <h3>Performance Summary:</h3>
-        <p><strong>Total Attempts:</strong> {totalAttempts}</p>
-        <ul>
-          {doors.map(door => (
-            <li key={door.id}>
-              Door {door.id}: {attemptsPerDoor[door.id] || 0} attempts
-            </li>
-          ))}
-        </ul>
-        <p>Generalization trials: {genAttempts.length} total attempts</p>
-      </div>
-
       {!submitted ? (
         <form className="feedback-form" onSubmit={handleSubmit}>
           <h3>Post-Experiment Feedback</h3>
-          <p style={{fontSize: '0.85rem', color: '#666', marginBottom: '20px'}}>Please complete the feedback below to finalise and submit your results.</p>
+          <p style={{fontSize: '0.9rem', color: '#d32f2f', fontWeight: 'bold', marginBottom: '20px'}}>
+            * Please complete the mandatory field below to finalise and submit your results.
+          </p>
           
           <div className="form-group">
-            <label>What do you think was the rule by which the doors open? *</label>
+            <label style={{fontWeight: 'bold'}}>
+              What do you think was the rule by which the doors open? <span style={{color: '#d32f2f'}}>*</span>
+            </label>
             <textarea 
               required
               value={formData.ruleGuess}
               onChange={(e) => setFormData({...formData, ruleGuess: e.target.value})}
               placeholder="Enter your guess here..."
+              style={{border: '2px solid #ccc', borderRadius: '4px', padding: '10px'}}
             />
           </div>
 
@@ -128,11 +115,28 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis }) {
       ) : (
         <div className="submission-success">
           <p>✔️ Thank you! All data and feedback have been successfully submitted.</p>
-          <div className="retry-container">
-            <button className="retry-button" onClick={onRetry}>Retry Experiment</button>
-          </div>
         </div>
       )}
+
+      <hr style={{margin: '30px 0', opacity: 0.2}} />
+
+      <div className="boilerplate-text">
+        <p>Thank you! This puzzle is part of a research study on how people infer logical rules.</p>
+        <p>If you have any questions, contact: <strong>farzin.ahmadi@dal.ca</strong></p>
+      </div>
+
+      {/* <div className="results-summary">
+        <h3>Performance Summary:</h3>
+        <p><strong>Total Attempts:</strong> {totalAttempts}</p>
+        <ul>
+          {doors.map(door => (
+            <li key={door.id}>
+              Door {door.id}: {attemptsPerDoor[door.id] || 0} attempts
+            </li>
+          ))}
+        </ul>
+        <p>Generalization trials: {genAttempts.length} total attempts</p>
+      </div> */}
     </div>
   );
 }

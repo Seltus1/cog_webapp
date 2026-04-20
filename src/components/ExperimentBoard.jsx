@@ -1,18 +1,21 @@
 import React from 'react';
 import Door from './Door';
 import Key from './Key';
-
 function ExperimentBoard({ title, keys, doors, selectedKeyId, onSelectKey, onOpenDoor, feedbackMessage }) {
+  const isGenPhase = title.toLowerCase().includes('generalization');
+
   return (
     <div className="experiment-board">
       <h2>{title}</h2>
-      
+
       <div className="doors-container">
         {doors.map(door => (
           <Door 
             key={door.id} 
             door={door} 
             onDrop={onOpenDoor} 
+            selectedKeyId={selectedKeyId}
+            isGenPhase={isGenPhase}
           />
         ))}
       </div>
