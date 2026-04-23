@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Key from './Key';
 import Door from './Door';
-import gemini from '/assets/instruction_example/gemini-svg.svg';
 
 function Instructions({ onStart }) {
   const [demoCompleted, setDemoCompleted] = useState(false);
