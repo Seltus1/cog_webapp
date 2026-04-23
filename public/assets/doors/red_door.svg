@@ -6,4 +6,5 @@
   <!-- Moon: white circle minus covering red circle = crescent -->
   <circle cx="60" cy="100" r="30" fill="white"/>
   <circle cx="75" cy="92" r="26" fill="#d93030"/>
+  <text x="44" y="106" text-anchor="middle" font-size="18" font-weight="bold" fill="#8b0000">1</text>
 </svg>

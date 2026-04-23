@@ -9,13 +9,13 @@ function Instructions({ onStart }) {
   const demoKey = {
     id: 999,
     name: 'red1',
-    asset: '/assets/red1.svg'
+    asset: '/assets/instruction_example/key.svg'
   };
 
   const demoDoor = {
     id: 888,
     name: 'red_door',
-    asset: '/assets/doors/red_door.svg',
+    asset: '/assets/instruction_example/door.svg',
     color: 'red',
     isOpen: false
   };
@@ -38,7 +38,7 @@ function Instructions({ onStart }) {
         />
       </div> */}
             <img 
-        src="/assets/instruction_example/misleading.svg"
+        src="assets/instruction_example/instructions.svg"
         alt="Instruction Panel"
         style={{ 
           width: '100%',
