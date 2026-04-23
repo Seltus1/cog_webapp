@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="200" viewBox="0 0 120 200">
+  <defs>
+    <!-- wood base gradient: light centre, darker edges -->
+    <linearGradient id="woodGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#5c3318"/>
+      <stop offset="30%"  stop-color="#8b5a2b"/>
+      <stop offset="55%"  stop-color="#a06830"/>
+      <stop offset="80%"  stop-color="#8b5a2b"/>
+      <stop offset="100%" stop-color="#5c3318"/>
+    </linearGradient>
+    <!-- subtle vertical grain overlay -->
+    <linearGradient id="grainA" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#7a4a22" stop-opacity="0.45"/>
+      <stop offset="50%"  stop-color="#c48840" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#5c3318" stop-opacity="0.45"/>
+    </linearGradient>
+    <clipPath id="doorClip">
+      <rect x="5" y="5" width="110" height="190" rx="4"/>
+    </clipPath>
+  </defs>
+
+  <!-- door body -->
+  <rect x="5" y="5" width="110" height="190" rx="4" fill="url(#woodGrad)" stroke="#3d2008" stroke-width="3"/>
+
+  <!-- grain lines clipped to door shape -->
+  <g clip-path="url(#doorClip)" opacity="0.5">
+    <line x1="5"   y1="0"   x2="5"   y2="200" stroke="#6b3f18" stroke-width="1.2"/>
+    <line x1="18"  y1="0"   x2="20"  y2="200" stroke="#c49050" stroke-width="0.8"/>
+    <line x1="32"  y1="0"   x2="30"  y2="200" stroke="#6b3f18" stroke-width="1.0"/>
+    <line x1="47"  y1="0"   x2="49"  y2="200" stroke="#c49050" stroke-width="0.6"/>
+    <line x1="60"  y1="0"   x2="60"  y2="200" stroke="#6b3f18" stroke-width="1.4"/>
+    <line x1="74"  y1="0"   x2="72"  y2="200" stroke="#c49050" stroke-width="0.8"/>
+    <line x1="88"  y1="0"   x2="90"  y2="200" stroke="#6b3f18" stroke-width="1.0"/>
+    <line x1="102" y1="0"   x2="100" y2="200" stroke="#c49050" stroke-width="0.6"/>
+    <line x1="113" y1="0"   x2="115" y2="200" stroke="#6b3f18" stroke-width="1.2"/>
+  </g>
+
+  <!-- grain overlay gradient -->
+  <rect x="5" y="5" width="110" height="190" rx="4" fill="url(#grainA)"/>
+
+  <!-- recessed panel -->
+  <rect x="16" y="18" width="88" height="160" rx="3"
+        fill="none" stroke="#3d2008" stroke-width="1.5" opacity="0.6"/>
+  <rect x="19" y="21" width="82" height="154" rx="2"
+        fill="none" stroke="#c49050" stroke-width="0.7" opacity="0.4"/>
+
+  <!-- doorknob -->
+  <circle cx="90" cy="103" r="6"   fill="#3d2008" opacity="0.7"/>
+  <circle cx="90" cy="103" r="3.5" fill="#c49050" opacity="0.9"/>
+
+  <!-- DOOR label -->
+  <text x="60" y="108"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="22" font-weight="bold" letter-spacing="3"
+        fill="#1a0a00" text-anchor="middle" dominant-baseline="middle"
+        opacity="0.92">DOOR</text>
+</svg>
