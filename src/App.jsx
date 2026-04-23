@@ -108,8 +108,6 @@ function App() {
   const handleSelectKey = (keyId) => {
     setSelectedKeyId(keyId);
     setFeedbackMessage('');
-    // Optionally track latency of key selection too? 
-    // For now we just use the final door click as the action time.
   };
 
   const [isTransitioning, setIsTransitioning] = useState(false); // Guard for trial transitions
@@ -176,7 +174,7 @@ function App() {
           setCurrentGenTrialIndex(prev => prev + 1);
           setSelectedKeyId(null);
           setIsTransitioning(false);
-          setStageStartTime(transitionNow); // Reset for new trial
+          setStageStartTime(transitionNow); 
           setLastActionTime(transitionNow);
         }, 1500);
       } else {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Key from './Key';
 import Door from './Door';
+import gemini from '/assets/instruction_example/gemini-svg.svg';
 
 function Instructions({ onStart }) {
   const [demoCompleted, setDemoCompleted] = useState(false);
@@ -9,13 +10,13 @@ function Instructions({ onStart }) {
   const demoKey = {
     id: 999,
     name: 'red1',
-    asset: '/assets/instruction_example/key.svg'
+    asset: '/assets/red1.svg'
   };
 
   const demoDoor = {
     id: 888,
     name: 'red_door',
-    asset: '/assets/instruction_example/door.svg',
+    asset: '/assets/doors/red_door.svg',
     color: 'red',
     isOpen: false
   };
@@ -30,11 +31,25 @@ function Instructions({ onStart }) {
 
   return (
     <div className="instructions">
-      <div className="instruction-details">
-          <p><strong>Doors:</strong> Each door has a color and a shape.</p>
-          <p><strong>Keys:</strong> Each key has a color, and either a number or a shape.</p>
-          <p><strong>Interaction:</strong> To try opening doors, drag a key and drop it onto a door.</p>
-      </div>
+      {/* <div className="instruction-panel">
+        <img 
+          src={gemini}
+          alt="Instruction Panel" 
+          style={{ width: '100%', maxWidth: '680px', borderRadius: '12px', display: 'block' }}
+        />
+      </div> */}
+            <img 
+        src="/assets/instruction_example/misleading.svg"
+        alt="Instruction Panel"
+        style={{ 
+          width: '100%',
+          height: 'auto',
+          maxWidth: '680px',
+          borderRadius: '12px',
+          display: 'block'
+        }}
+      />
+
 
       <div className="demo-section" style={{ 
         marginTop: '20px', 
