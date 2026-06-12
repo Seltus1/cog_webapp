@@ -26,7 +26,7 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.ruleGuess.trim()) return;
+    if (!formData.ruleGuess.trim() || !formData.age.trim()) return;
 
     setIsSubmitting(true);
 
@@ -85,9 +85,10 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
 
           <div className="form-row">
             <div className="form-group">
-              <label>Age (Optional):</label>
+              <label>Age <span style={{color: '#d32f2f'}}>*</span></label>
               <input 
                 type="text" 
+                required
                 value={formData.age}
                 onChange={(e) => setFormData({...formData, age: e.target.value})}
                 placeholder="e.g. 25"

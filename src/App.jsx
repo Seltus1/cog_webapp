@@ -3,6 +3,7 @@ import ExperimentBoard from './components/ExperimentBoard';
 import ResultsScreen from './components/ResultsScreen';
 import Instructions from './components/Instructions';
 import WelcomeScreen from './components/WelcomeScreen';
+import ConsentScreen from './components/ConsentScreen';
 import { generateAppItems } from './scripts/environment.js'
 import { oracle, HYPOTHESES } from './scripts/oracle.js';
 import { submitAllData } from './scripts/backend';
@@ -34,7 +35,7 @@ function App() {
   const [attempts, setAttempts] = useState([]);
   const [genAttempts, setGenAttempts] = useState([]);
   const [feedbackMessage, setFeedbackMessage] = useState('');
-  const [stage, setStage] = useState('welcome'); // Welcome, Instructions, Experiment, Transition, Generalization, Results
+  const [stage, setStage] = useState('consent'); // consent, Welcome, Instructions, Experiment, Transition, Generalization, Results
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
   const [timerActive, setTimerActive] = useState(false);
   const [submitted, setSubmitted] = useState(false); // New state to track final submission
@@ -218,6 +219,10 @@ function App() {
     <div className="App">
       {timerActive && stage === 'experiment' && <div className="timer">Time Remaining: {formatTime(timeLeft)}</div>}
       
+      {stage === 'consent' && (
+        <ConsentScreen onConsent={() => setStage('welcome')} />
+      )}
+
       {stage === 'welcome' && (
         <WelcomeScreen onNext={() => setStage('instructions')} />
       )}
