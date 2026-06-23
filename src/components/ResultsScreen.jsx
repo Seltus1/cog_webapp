@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import { submitAllData } from '../scripts/backend';
 
+// Helper function to generate an 8-character alphanumeric + symbol code
+const generateCompletionCode = () => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+';
+  let code = '';
+  for (let i = 0; i < 8; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
+};
+
 function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sessionId, submitted, setSubmitted }) {
   const [formData, setFormData] = useState({
     ruleGuess: '',
@@ -9,6 +19,9 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
     gender: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // State to hold the generated code so we can display it after submission
+  const [completionCode, setCompletionCode] = useState('');
 
   const totalAttempts = attempts.length + genAttempts.length;
   
@@ -30,8 +43,14 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
 
     setIsSubmitting(true);
 
+    // 1. Generate the code
+    const generatedCode = generateCompletionCode();
+    setCompletionCode(generatedCode);
+
+    // 2. Attach it to the payload
     const fullPayload = {
-      session_id: sessionId, // Use the persistent ID
+      session_id: sessionId, 
+      completion_code: generatedCode, // Attached for the backend
       rule_guess: sanitize(formData.ruleGuess),
       comments: sanitize(formData.comments),
       age: sanitize(formData.age),
@@ -116,6 +135,30 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
       ) : (
         <div className="submission-success">
           <p>✔️ Thank you! All data and feedback have been successfully submitted.</p>
+          
+          {/* New block to display the code to the user */}
+          <div style={{
+            marginTop: '20px', 
+            padding: '20px', 
+            backgroundColor: '#f8f9fa', 
+            border: '2px dashed #007bff', 
+            borderRadius: '8px',
+            textAlign: 'center'
+          }}>
+            <h3 style={{ margin: '0 0 10px 0', color: '#333' }}>Your Completion Code:</h3>
+            <p style={{ margin: '0 0 15px 0', fontSize: '0.9rem', color: '#666' }}>
+              Please copy this code and paste it into the survey platform to receive your payment.
+            </p>
+            <code style={{ 
+              fontSize: '2rem', 
+              fontWeight: 'bold', 
+              color: '#007bff',
+              letterSpacing: '3px',
+              userSelect: 'all' // Makes it easy for the user to double-click and copy
+            }}>
+              {completionCode}
+            </code>
+          </div>
         </div>
       )}
 
@@ -125,19 +168,6 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
         <p>Thank you! This puzzle is part of a research study on how people infer logical rules.</p>
         <p>If you have any questions, contact: <strong>farzin.ahmadi@dal.ca</strong></p>
       </div>
-
-      {/* <div className="results-summary">
-        <h3>Performance Summary:</h3>
-        <p><strong>Total Attempts:</strong> {totalAttempts}</p>
-        <ul>
-          {doors.map(door => (
-            <li key={door.id}>
-              Door {door.id}: {attemptsPerDoor[door.id] || 0} attempts
-            </li>
-          ))}
-        </ul>
-        <p>Generalization trials: {genAttempts.length} total attempts</p>
-      </div> */}
     </div>
   );
 }
