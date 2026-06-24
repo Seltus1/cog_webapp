@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+// 1. FIXED: Imported useEffect here!
+import React, { useState, useEffect } from 'react';
 import { submitAllData } from '../scripts/backend';
 
-// Helper function to generate an 8-character alphanumeric + symbol code
 const generateCompletionCode = () => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+';
   let code = '';
@@ -19,9 +19,23 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
     gender: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  // State to hold the generated code so we can display it after submission
   const [completionCode, setCompletionCode] = useState('');
+  const [userIp, setUserIp] = useState('unknown');
+
+  useEffect(() => {
+    const fetchIp = async () => {
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        setUserIp(data.ip);
+      } catch (error) {
+        console.error("Could not fetch IP address:", error);
+        setUserIp('fetch_failed'); 
+      }
+    };
+    
+    fetchIp();
+  }, []);
 
   const totalAttempts = attempts.length + genAttempts.length;
   
@@ -32,28 +46,32 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
 
   const sanitize = (str) => {
     if (!str) return '';
-    return str
-      .replace(/[<>]/g, '')
-      .trim();
+    return str.replace(/[<>]/g, '').trim();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.ruleGuess.trim() || !formData.age.trim()) return;
+    if (!formData.ruleGuess.trim() || !formData.age) return;
+
+    // 2. FIXED: Age minimum validation
+    const ageNumber = parseInt(formData.age, 10);
+    if (ageNumber < 12) {
+      alert("You must be at least 12 years old to participate.");
+      return; 
+    }
 
     setIsSubmitting(true);
 
-    // 1. Generate the code
     const generatedCode = generateCompletionCode();
     setCompletionCode(generatedCode);
 
-    // 2. Attach it to the payload
     const fullPayload = {
       session_id: sessionId, 
-      completion_code: generatedCode, // Attached for the backend
+      ip_address: userIp,
+      completion_code: generatedCode, 
       rule_guess: sanitize(formData.ruleGuess),
       comments: sanitize(formData.comments),
-      age: sanitize(formData.age),
+      age: ageNumber, // Send as a number, not text
       gender: formData.gender,
       hypothesis: hypothesis,
       attempts: attempts,
@@ -105,11 +123,23 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
           <div className="form-row">
             <div className="form-group">
               <label>Age <span style={{color: '#d32f2f'}}>*</span></label>
+              {/* 3. FIXED: Age input changed to strictly allow numbers up to 90 */}
               <input 
-                type="text" 
+                type="number" 
+                min="12"
+                max="90"
                 required
                 value={formData.age}
-                onChange={(e) => setFormData({...formData, age: e.target.value})}
+                onChange={(e) => {
+                  let val = e.target.value;
+                  if (val === '') {
+                    setFormData({...formData, age: ''});
+                    return;
+                  }
+                  if (!/^\d+$/.test(val)) return;
+                  if (parseInt(val, 10) > 90) val = '90';
+                  setFormData({...formData, age: val});
+                }}
                 placeholder="e.g. 25"
               />
             </div>
@@ -136,7 +166,6 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
         <div className="submission-success">
           <p>✔️ Thank you! All data and feedback have been successfully submitted.</p>
           
-          {/* New block to display the code to the user */}
           <div style={{
             marginTop: '20px', 
             padding: '20px', 
@@ -154,7 +183,7 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
               fontWeight: 'bold', 
               color: '#007bff',
               letterSpacing: '3px',
-              userSelect: 'all' // Makes it easy for the user to double-click and copy
+              userSelect: 'all' 
             }}>
               {completionCode}
             </code>
