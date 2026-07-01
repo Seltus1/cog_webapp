@@ -186,6 +186,7 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
             }}>
               {completionCode}
             </code>
+             <p><strong>The correct answer to the puzzle: </strong>The doors open when the number on the key matches the number of shapes on the door</p>
           </div>
         </div>
       )}
@@ -195,7 +196,6 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
       <div className="boilerplate-text">
         <p>Thank you! This puzzle is part of a research study on how people infer logical rules.</p>
         <p>In this study we tested your ability to recover from misleading instructions.</p>
-        <p><strong>The correct answer to the puzzle: </strong>The doors open when the number on the key matches the number of shapes on the door</p>
         <p>If you have any questions, contact: <strong>farzin.ahmadi@dal.ca</strong></p>
       </div>
     </div>
