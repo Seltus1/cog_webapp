@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-06-28T09:06:25.431749",
+  "model": "deepseek-chat",
+  "prompt_tokens": 3780,
+  "completion_tokens": 2993,
+  "total_tokens": 6773,
+  "estimated_cost_usd": 0.001367,
+  "participants_processed": 31,
+  "api_response_id": "523386c3-f44f-4904-99d0-c6d2e0749d6c",
+  "api_created": 1782648368
+}

@@ -246,7 +246,7 @@ function App() {
       {stage === 'transition' && (
         <div className="welcome-screen">
           <h2>Great, you are done!</h2>
-          <p>Next we will show you four new doors, along with a new set of keys. This time there will be no feedback. Please select the key that you think is most likely to open the door.</p>
+          <p>Next we will show you four new doors, along with a new set of keys. This time there will be no feedback but the answer is revealed at the end of the study! Please select the key that you think is most likely to open the door.</p>
           <button className="start-button" onClick={() => {
             const now = Date.now();
             setStage('generalization');
@@ -260,7 +260,7 @@ function App() {
 
       {stage === 'generalization' && (
         <ExperimentBoard 
-          title={`Phase 2: Generalization - Trial ${currentGenTrialIndex + 1} of ${genTrials.length}`}
+          title={`Guess which key opens this new door? Door ${currentGenTrialIndex + 1} of ${genTrials.length}`}
           keys={genTrials[currentGenTrialIndex].keys}
           doors={[genTrials[currentGenTrialIndex].door]}
           selectedKeyId={selectedKeyId}
