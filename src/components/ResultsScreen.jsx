@@ -165,7 +165,7 @@ function ResultsScreen({ attempts, doors, genAttempts, onRetry, hypothesis, sess
       ) : (
         <div className="submission-success">
           <p>✔️ Thank you! All data and feedback have been successfully submitted.</p>
-          
+          <p>In this study we tested your ability to recover from misleading instructions. The correct answer to the puzzle: The doors open when the number on the key matches the number of shapes on the door</p>
           <div style={{
             marginTop: '20px', 
             padding: '20px', 
