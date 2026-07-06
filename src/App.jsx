@@ -267,6 +267,7 @@ function App() {
           onSelectKey={handleSelectKey}
           onOpenDoor={handleOpenDoor}
           feedbackMessage={feedbackMessage}
+          isGenPhase={true}
         />
       )}
 
