@@ -3,6 +3,7 @@ import ExperimentBoard from './components/ExperimentBoard';
 import ResultsScreen from './components/ResultsScreen';
 import Instructions from './components/Instructions';
 import WelcomeScreen from './components/WelcomeScreen';
+import ConsentScreen from './components/ConsentScreen';
 import { generateAppItems } from './scripts/environment.js'
 import { oracle, HYPOTHESES } from './scripts/oracle.js';
 import { submitAllData } from './scripts/backend';
@@ -34,7 +35,7 @@ function App() {
   const [attempts, setAttempts] = useState([]);
   const [genAttempts, setGenAttempts] = useState([]);
   const [feedbackMessage, setFeedbackMessage] = useState('');
-  const [stage, setStage] = useState('welcome'); // Welcome, Instructions, Experiment, Transition, Generalization, Results
+  const [stage, setStage] = useState('consent'); // consent, Welcome, Instructions, Experiment, Transition, Generalization, Results
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
   const [timerActive, setTimerActive] = useState(false);
   const [submitted, setSubmitted] = useState(false); // New state to track final submission
@@ -108,8 +109,6 @@ function App() {
   const handleSelectKey = (keyId) => {
     setSelectedKeyId(keyId);
     setFeedbackMessage('');
-    // Optionally track latency of key selection too? 
-    // For now we just use the final door click as the action time.
   };
 
   const [isTransitioning, setIsTransitioning] = useState(false); // Guard for trial transitions
@@ -176,7 +175,7 @@ function App() {
           setCurrentGenTrialIndex(prev => prev + 1);
           setSelectedKeyId(null);
           setIsTransitioning(false);
-          setStageStartTime(transitionNow); // Reset for new trial
+          setStageStartTime(transitionNow); 
           setLastActionTime(transitionNow);
         }, 1500);
       } else {
@@ -220,6 +219,10 @@ function App() {
     <div className="App">
       {timerActive && stage === 'experiment' && <div className="timer">Time Remaining: {formatTime(timeLeft)}</div>}
       
+      {stage === 'consent' && (
+        <ConsentScreen onConsent={() => setStage('welcome')} />
+      )}
+
       {stage === 'welcome' && (
         <WelcomeScreen onNext={() => setStage('instructions')} />
       )}
@@ -243,7 +246,7 @@ function App() {
       {stage === 'transition' && (
         <div className="welcome-screen">
           <h2>Great, you are done!</h2>
-          <p>Next we will show you four new doors, along with a new set of keys. This time there will be no feedback. Please select the key that you think is most likely to open the door.</p>
+          <p>Next we will show you four new doors, along with a new set of keys. This time there will be no feedback but the answer is revealed at the end of the study! Please select the key that you think is most likely to open the door.</p>
           <button className="start-button" onClick={() => {
             const now = Date.now();
             setStage('generalization');
@@ -257,13 +260,14 @@ function App() {
 
       {stage === 'generalization' && (
         <ExperimentBoard 
-          title={`Phase 2: Generalization - Trial ${currentGenTrialIndex + 1} of ${genTrials.length}`}
+          title={`Guess which key opens this new door? Door ${currentGenTrialIndex + 1} of ${genTrials.length}`}
           keys={genTrials[currentGenTrialIndex].keys}
           doors={[genTrials[currentGenTrialIndex].door]}
           selectedKeyId={selectedKeyId}
           onSelectKey={handleSelectKey}
           onOpenDoor={handleOpenDoor}
           feedbackMessage={feedbackMessage}
+          isGenPhase={true}
         />
       )}
 

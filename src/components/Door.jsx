@@ -40,10 +40,10 @@ function Door({ door, onDrop, selectedKeyId, isGenPhase }) {
       }}
     >
       <div className="door-visual">
-        <img src={doorAssetPath} alt={`${door.color} door`} className="door-image" />
+        <img src={doorAssetPath} className="door-image" />
         {feedback === 'correct' && <div className="feedback-icon correct">✔️</div>}
         {feedback === 'incorrect' && <div className="feedback-icon incorrect">❌</div>}
-        {feedback === 'neutral' && <div className="feedback-icon neutral">👍</div>}
+        {feedback === 'neutral' && <div className="feedback-icon neutral">🙏</div>}
       </div>
     </div>
   );

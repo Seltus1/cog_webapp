@@ -1,0 +1,281 @@
+[
+  {
+    "session_id": "80bf-e3f2-4538-9cab-b2af",
+    "true_rule_identified": true,
+    "stated_mechanism": "highest_number",
+    "articulation_depth": 2,
+    "confidence_indicators": "found that",
+    "key_evidence_quote": "I found that the highest number on the door was the correct key.",
+    "notes": ""
+  },
+  {
+    "session_id": "6843-08cd-4de4-83f8-c260",
+    "true_rule_identified": true,
+    "stated_mechanism": "highest_number",
+    "articulation_depth": 1,
+    "confidence_indicators": "was what was required",
+    "key_evidence_quote": "the highest number was what was required to open the door",
+    "notes": ""
+  },
+  {
+    "session_id": "784d-1cf6-4858-a0c4-e53f",
+    "true_rule_identified": false,
+    "stated_mechanism": "colour_match",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "Matching color and shape.",
+    "notes": ""
+  },
+  {
+    "session_id": "d4de-c1bf-4fa5-a1e5-5d0e",
+    "true_rule_identified": false,
+    "stated_mechanism": "other",
+    "articulation_depth": 2,
+    "confidence_indicators": "",
+    "key_evidence_quote": "Selecting the numbers that match the numbers that had a dot sign on them on the doors.",
+    "notes": "Mentions dot sign, unclear mechanism"
+  },
+  {
+    "session_id": "6b24-0f86-4c4d-9e76-9aec",
+    "true_rule_identified": false,
+    "stated_mechanism": "ambiguous_combination",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "colours of doors or numbers o door.",
+    "notes": ""
+  },
+  {
+    "session_id": "2948-a336-4c90-978c-8aa1",
+    "true_rule_identified": false,
+    "stated_mechanism": "other",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "The last number of the door is the correct one",
+    "notes": "Incorrect rule"
+  },
+  {
+    "session_id": "b60b-9a01-4339-9a16-0b1e",
+    "true_rule_identified": false,
+    "stated_mechanism": "intuition_random",
+    "articulation_depth": 1,
+    "confidence_indicators": "not sure",
+    "key_evidence_quote": "I am not sure what the rule is; I just did it by intuition",
+    "notes": ""
+  },
+  {
+    "session_id": "202b-3545-4704-b506-ecf8",
+    "true_rule_identified": false,
+    "stated_mechanism": "ambiguous_combination",
+    "articulation_depth": 1,
+    "confidence_indicators": "Sometimes",
+    "key_evidence_quote": "Sometimes it was the color or shape.",
+    "notes": "enjoyed the game"
+  },
+  {
+    "session_id": "b4fb-569d-464c-976e-b52a",
+    "true_rule_identified": false,
+    "stated_mechanism": "intuition_random",
+    "articulation_depth": 1,
+    "confidence_indicators": "No clue",
+    "key_evidence_quote": "No clue.",
+    "notes": ""
+  },
+  {
+    "session_id": "9d17-3131-4961-aca9-f771",
+    "true_rule_identified": false,
+    "stated_mechanism": "other",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "The numbers on the door is the key.",
+    "notes": "Vague"
+  },
+  {
+    "session_id": "0426-b93e-448f-8dba-650e",
+    "true_rule_identified": true,
+    "stated_mechanism": "count_shapes",
+    "articulation_depth": 2,
+    "confidence_indicators": "indicated",
+    "key_evidence_quote": "The number of shapes on the door indicated which number on the key was the match",
+    "notes": "mentioned confusion about instructions"
+  },
+  {
+    "session_id": "5ae9-6baf-462f-96ed-9b93",
+    "true_rule_identified": false,
+    "stated_mechanism": "ambiguous_combination",
+    "articulation_depth": 2,
+    "confidence_indicators": "couldnt figure it out",
+    "key_evidence_quote": "Whether the number was on the door and available for me to select from and the shape of the key corresponding to the door, honestly it was confusing for the first half i couldnt figure it out.",
+    "notes": ""
+  },
+  {
+    "session_id": "4ffb-2285-4a34-afb5-ef93",
+    "true_rule_identified": false,
+    "stated_mechanism": "intuition_random",
+    "articulation_depth": 1,
+    "confidence_indicators": "unsure",
+    "key_evidence_quote": "unsure",
+    "notes": ""
+  },
+  {
+    "session_id": "9d61-971c-487a-a219-e0d0",
+    "true_rule_identified": false,
+    "stated_mechanism": "other",
+    "articulation_depth": 2,
+    "confidence_indicators": "",
+    "key_evidence_quote": "The one that had nothing to do with what else was there so not same colour, number or shape",
+    "notes": "Describes a negative rule"
+  },
+  {
+    "session_id": "8c2d-a451-406b-ad2c-5c37",
+    "true_rule_identified": false,
+    "stated_mechanism": "other",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "total sum of number",
+    "notes": ""
+  },
+  {
+    "session_id": "c830-488d-40de-a911-25f5",
+    "true_rule_identified": false,
+    "stated_mechanism": "other",
+    "articulation_depth": 2,
+    "confidence_indicators": "I think",
+    "key_evidence_quote": "I think the rule was doors labeled with numbers could be unlocked by keys that aligned with the same number or figure representing a number.",
+    "notes": "enjoyed the game"
+  },
+  {
+    "session_id": "101d-8e1e-401e-952c-ea05",
+    "true_rule_identified": false,
+    "stated_mechanism": "other",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "Match the numbers rather that the shapes and colours",
+    "notes": ""
+  },
+  {
+    "session_id": "7cfe-3333-441f-a3b2-cdcd",
+    "true_rule_identified": false,
+    "stated_mechanism": "colour_match",
+    "articulation_depth": 1,
+    "confidence_indicators": "I think",
+    "key_evidence_quote": "Colour I think",
+    "notes": ""
+  },
+  {
+    "session_id": "e10b-7d60-496e-9400-f905",
+    "true_rule_identified": false,
+    "stated_mechanism": "other",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "Match the last number on the door with the key",
+    "notes": "enjoyed the game"
+  },
+  {
+    "session_id": "a8b0-2f84-48a9-8be5-6136",
+    "true_rule_identified": false,
+    "stated_mechanism": "colour_match",
+    "articulation_depth": 3,
+    "confidence_indicators": "couldn't figure out",
+    "key_evidence_quote": "The rule mentioned that it was the colour, however this didn't work when opening the 5 doors (except for the first one), I couldn't figure out what the actual selection logic was",
+    "notes": ""
+  },
+  {
+    "session_id": "d8cd-1dd3-40c8-9ead-3b5f",
+    "true_rule_identified": false,
+    "stated_mechanism": "shape_match",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "the shape",
+    "notes": ""
+  },
+  {
+    "session_id": "f99a-d718-4fb5-955c-01b3",
+    "true_rule_identified": true,
+    "stated_mechanism": "count_shapes",
+    "articulation_depth": 3,
+    "confidence_indicators": "eventually recognized",
+    "key_evidence_quote": "I eventually recognized that, regardless of the key's color, if it had the same number that the door specified, it was able to unlock it.",
+    "notes": "enjoyed the game"
+  },
+  {
+    "session_id": "3bc4-bd5f-4a31-97d4-2c2e",
+    "true_rule_identified": true,
+    "stated_mechanism": "count_shapes",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "number associated to amount of shapes in each door",
+    "notes": ""
+  },
+  {
+    "session_id": "845f-bf18-4fd1-9702-e99b",
+    "true_rule_identified": false,
+    "stated_mechanism": "intuition_random",
+    "articulation_depth": 1,
+    "confidence_indicators": "difficult to tell",
+    "key_evidence_quote": "It's difficult to tell.",
+    "notes": ""
+  },
+  {
+    "session_id": "08e3-27ca-4344-b10c-a512",
+    "true_rule_identified": false,
+    "stated_mechanism": "ambiguous_combination",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "Either colour or shapes.",
+    "notes": ""
+  },
+  {
+    "session_id": "cfa7-2d55-4531-8f25-a816",
+    "true_rule_identified": true,
+    "stated_mechanism": "count_shapes",
+    "articulation_depth": 2,
+    "confidence_indicators": "",
+    "key_evidence_quote": "The first set of doors opened with the keys that contained the numbers of how many symbols there were on them.",
+    "notes": "enjoyed the game"
+  },
+  {
+    "session_id": "d24f-f140-4a9f-8276-4159",
+    "true_rule_identified": true,
+    "stated_mechanism": "count_shapes",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "Number of shapes in the door.",
+    "notes": ""
+  },
+  {
+    "session_id": "d9a3-9a39-40b6-a8ab-867f",
+    "true_rule_identified": false,
+    "stated_mechanism": "ambiguous_combination",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "Numbers first, then colors",
+    "notes": ""
+  },
+  {
+    "session_id": "7031-8647-4517-8e45-84d6",
+    "true_rule_identified": true,
+    "stated_mechanism": "count_shapes",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "the number is shapes is the number to be dragged out",
+    "notes": ""
+  },
+  {
+    "session_id": "3c58-a5e9-4ad2-ab05-455c",
+    "true_rule_identified": false,
+    "stated_mechanism": "other",
+    "articulation_depth": 1,
+    "confidence_indicators": "",
+    "key_evidence_quote": "one of the numbers on the door",
+    "notes": ""
+  },
+  {
+    "session_id": "f68a-ce8c-4516-b005-7555",
+    "true_rule_identified": true,
+    "stated_mechanism": "count_shapes",
+    "articulation_depth": 3,
+    "confidence_indicators": "appears",
+    "key_evidence_quote": "the rule was regarding the number of items on each door, which corresponded to the numerals on the keys.",
+    "notes": ""
+  }
+]

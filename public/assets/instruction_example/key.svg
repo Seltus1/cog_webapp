@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <linearGradient id="woodKeyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#5c3318"/>
+      <stop offset="30%"  stop-color="#8b5a2b"/>
+      <stop offset="55%"  stop-color="#a06830"/>
+      <stop offset="80%"  stop-color="#8b5a2b"/>
+      <stop offset="100%" stop-color="#5c3318"/>
+    </linearGradient>
+    <linearGradient id="grainKey" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#7a4a22" stop-opacity="0.45"/>
+      <stop offset="50%"  stop-color="#c48840" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#5c3318" stop-opacity="0.45"/>
+    </linearGradient>
+    <clipPath id="circClip">
+      <circle cx="40" cy="40" r="38"/>
+    </clipPath>
+  </defs>
+
+  <!-- circle body -->
+  <circle cx="40" cy="40" r="38" fill="url(#woodKeyGrad)" stroke="#3d2008" stroke-width="2"/>
+
+  <!-- grain lines clipped to circle -->
+  <g clip-path="url(#circClip)" opacity="0.5">
+    <line x1="10"  y1="0" x2="12"  y2="80" stroke="#6b3f18" stroke-width="1.2"/>
+    <line x1="24"  y1="0" x2="26"  y2="80" stroke="#c49050" stroke-width="0.8"/>
+    <line x1="38"  y1="0" x2="38"  y2="80" stroke="#6b3f18" stroke-width="1.4"/>
+    <line x1="52"  y1="0" x2="50"  y2="80" stroke="#c49050" stroke-width="0.8"/>
+    <line x1="66"  y1="0" x2="68"  y2="80" stroke="#6b3f18" stroke-width="1.2"/>
+  </g>
+
+  <!-- grain overlay -->
+  <circle cx="40" cy="40" r="38" fill="url(#grainKey)"/>
+
+  <!-- KEY label -->
+  <text x="40" y="40"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="22" font-weight="bold" letter-spacing="2"
+        fill="#1a0a00" text-anchor="middle" dominant-baseline="middle"
+        opacity="0.92">KEY</text>
+</svg>

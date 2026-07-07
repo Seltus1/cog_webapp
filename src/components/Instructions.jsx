@@ -1,24 +1,90 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Key from './Key';
+import Door from './Door';
 
 function Instructions({ onStart }) {
+  const [demoCompleted, setDemoCompleted] = useState(false);
+  const [selectedKeyId, setSelectedKeyId] = useState(null);
+
+  const demoKey = {
+    id: 999,
+    name: 'red1',
+    asset: '/assets/instruction_example/key.svg'
+  };
+
+  const demoDoor = {
+    id: 888,
+    name: 'red_door',
+    asset: '/assets/instruction_example/door.svg',
+    color: 'red',
+    isOpen: false
+  };
+
+  const handleDrop = (doorId, keyId) => {
+    if (keyId === demoKey.id) {
+      setDemoCompleted(true);
+      return true;
+    }
+    return false;
+  };
+
   return (
     <div className="instructions">
-      {/* <div className="video-demonstration">
-        <p>For each box there is a key that opens it</p>
-        <p>This puzzle comes with instructions:</p>
-        <blockquote style={{ fontStyle: 'italic', background: '#f8f9fa', padding: '20px', borderRadius: '8px', borderLeft: '4px solid #3498db', margin: '20px 0' }}>
-          "I'm going to show you the right way to unlock the doors. To open the doors, you have to use a key that matches the color of the box. So, to open this red box, I'm going to use this red key. Great, now you can open all the doors!"
-        </blockquote>
+      {/* <div className="instruction-panel">
+        <img 
+          src={gemini}
+          alt="Instruction Panel" 
+          style={{ width: '100%', maxWidth: '680px', borderRadius: '12px', display: 'block' }}
+        />
       </div> */}
+            <img 
+        src="assets/instruction_example/instructions.svg"
+        alt="Instruction Panel"
+        style={{ 
+          width: '100%',
+          height: 'auto',
+          maxWidth: '680px',
+          borderRadius: '12px',
+          display: 'block'
+        }}
+      />
 
-      <div className="instruction-details">
-          <p><strong>Doors:</strong> Each door has a color and a shape.</p>
-          <p><strong>Keys:</strong> Each key has a color, and either a number or a shape.</p>
-          <p><strong>Interaction:</strong> To try opening doors, drag a key and drop it onto a door.</p>
-  
+
+      <div className="demo-section" style={{ 
+        marginTop: '20px', 
+        padding: '20px', 
+        border: '2px dashed #ccc', 
+        borderRadius: '12px',
+        background: '#f9f9f9',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}>
+        <p style={{ marginBottom: '15px' }}><strong>Try it now:</strong> Drag the key to the door to unlock the experiment.</p>
+        <div style={{ display: 'flex', gap: '40px', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: '80px' }}>
+            <Key 
+              item={demoKey} 
+              isSelected={selectedKeyId === demoKey.id} 
+              onSelect={setSelectedKeyId} 
+            />
+          </div>
+          <div style={{ width: '120px' }}>
+            <Door 
+              door={demoDoor} 
+              onDrop={handleDrop} 
+              selectedKeyId={selectedKeyId} 
+              isGenPhase={false} 
+            />
+          </div>
+        </div>
+        {demoCompleted && <p style={{ color: 'green', fontWeight: 'bold', marginTop: '15px' }}>Well done! You are ready.</p>}
       </div>
 
-      <button className="start-button" onClick={onStart}>Let's Begin!</button>
+      {demoCompleted && (
+        <button className="start-button" onClick={onStart}>Let's Begin!</button>
+      )}
     </div>
   );
 }

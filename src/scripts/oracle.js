@@ -1,7 +1,3 @@
-/**
- * The Oracle knows when a box should open.
- * ML term for ground truth.
- */
 export const HYPOTHESES = {
   COLOR_MATCH: 'color_match',    // The misleading instruction: match box and key tag by color
   SHAPE_MATCH: 'shape_match',    // Match the shape on the box to the shape on the key tag

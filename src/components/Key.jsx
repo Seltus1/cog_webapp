@@ -34,7 +34,6 @@ function Key({ item, isSelected, onSelect }) {
     e.dataTransfer.setData('keyId', item.id);
     
     if (dragCanvasRef.current) {
-      // Center the 110px icon on the cursor
       e.dataTransfer.setDragImage(dragCanvasRef.current, 55, 55);
     }
     

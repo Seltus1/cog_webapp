@@ -1,8 +1,8 @@
 import React from 'react';
 import Door from './Door';
 import Key from './Key';
-function ExperimentBoard({ title, keys, doors, selectedKeyId, onSelectKey, onOpenDoor, feedbackMessage }) {
-  const isGenPhase = title.toLowerCase().includes('generalization');
+function ExperimentBoard({ title, keys, doors, selectedKeyId, onSelectKey, onOpenDoor, feedbackMessage, isGenPhase }) {
+  // const isGenPhase = title.toLowerCase().includes('generalization');
 
   return (
     <div className="experiment-board">
