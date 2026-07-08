@@ -23,7 +23,7 @@ function App() {
   const [stageStartTime, setStageStartTime] = useState(() => Date.now()); // When current stage started
   const [lastActionTime, setLastActionTime] = useState(() => Date.now()); // Time of last click/action
   
-  const [currentHypothesis] = useState(HYPOTHESES.NUMBER_MATCH);
+  const [currentHypothesis] = useState(HYPOTHESES.NUMBER_MATCH_FUZZY);
 
   const [items, setItems] = useState(() => generateAppItems());
   const [keys, setKeys] = useState(items.keys);
@@ -127,6 +127,7 @@ function App() {
 
     const now = Date.now();
     const isCorrect = oracle.shouldOpen(selectedKey, targetDoor, currentHypothesis);
+    const isCorrectTrueRule = oracle.shouldOpen(selectedKey, targetDoor, HYPOTHESES.NUMBER_MATCH);
 
     const newAttempt = {
       time: now,
@@ -142,6 +143,7 @@ function App() {
       keyNumber: selectedKey.number,
       keySymbol: selectedKey.symbol,
       correct: isCorrect,
+      correct_num: isCorrectTrueRule,
       phase: isGenPhase ? `generalization_${currentGenTrialIndex + 1}` : 'learning'
     };
 

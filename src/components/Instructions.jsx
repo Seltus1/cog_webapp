@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Key from './Key';
 import Door from './Door';
+import { colors } from '../scripts/environment';
 
 function Instructions({ onStart }) {
   const [demoCompleted, setDemoCompleted] = useState(false);
@@ -78,9 +79,13 @@ function Instructions({ onStart }) {
               isGenPhase={false} 
             />
           </div>
+          <div>
+            
+          </div>
         </div>
         {demoCompleted && <p style={{ color: 'green', fontWeight: 'bold', marginTop: '15px' }}>Well done! You are ready.</p>}
       </div>
+      <p style={{ marginBottom: '15px'}}><strong style={{ color: 'red'}}>IMPORTANT: </strong> When you attempt to open the door, the game will use a physical game engine to simulate door opening. <strong style={{color: 'black'}}>This means that the correct key might sometimes jam, and fail.</strong> Since doors and keys are physical objects.</p>
 
       {demoCompleted && (
         <button className="start-button" onClick={onStart}>Let's Begin!</button>
