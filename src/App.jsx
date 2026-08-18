@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ExperimentBoard from './components/ExperimentBoard';
+import HistoryBoard from './components/HistoryBoard';
 import ResultsScreen from './components/ResultsScreen';
 import Instructions from './components/Instructions';
 import WelcomeScreen from './components/WelcomeScreen';
@@ -229,6 +230,10 @@ function App() {
 
       {stage === 'instructions' && (
         <Instructions onStart={startExperiment} />
+      )}
+
+      {stage === 'experiment' && (
+        <HistoryBoard attempts={attempts} keys={keys} doors={doors} />
       )}
 
       {stage === 'experiment' && (
