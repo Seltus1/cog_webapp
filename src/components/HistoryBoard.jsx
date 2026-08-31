@@ -2,17 +2,19 @@ import React, { useEffect, useRef } from 'react';
 
 function HistoryBoard({ attempts, keys, doors }) {
   const listRef = useRef(null);
+  const correctAttempts = attempts.filter((a) => a.correct);
 
   useEffect(() => {
     if (listRef.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight;
     }
-  }, [attempts]);
+  }, [correctAttempts]); 
 
   const keyAssetById = (id) => {
     const k = keys.find((x) => x.id === id);
     return k ? k.asset : null;
   };
+  
   const doorAssetById = (id) => {
     const d = doors.find((x) => x.id === id);
     return d ? d.asset : null;
@@ -22,20 +24,21 @@ function HistoryBoard({ attempts, keys, doors }) {
     <aside className="history-board" aria-label="Attempt history">
       <div className="history-board-header">
         <h3>History</h3>
-        <span className="history-board-count">{attempts.length}</span>
+        <span className="history-board-count">{correctAttempts.length}</span>
       </div>
       <div className="history-board-list" ref={listRef}>
-        {attempts.length === 0 && (
-          <div className="history-board-empty">No attempts yet</div>
+        {correctAttempts.length === 0 && (
+          <div className="history-board-empty">No correct attempts yet</div>
         )}
-        {attempts.map((a, idx) => {
+        
+        {correctAttempts.map((a, idx) => {
           const keyAsset = keyAssetById(a.keyId);
           const doorAsset = doorAssetById(a.doorId);
-          const opened = a.correct;
+          
           return (
             <div
               key={idx}
-              className={`history-row ${opened ? 'is-correct' : 'is-incorrect'}`}
+              className="history-row is-correct"
             >
               <span className="history-row-num">{idx + 1}</span>
               <span className="history-row-icon">
@@ -53,8 +56,8 @@ function HistoryBoard({ attempts, keys, doors }) {
                   <span className="history-icon-fallback">{a.doorName}</span>
                 )}
               </span>
-              <span className={`history-row-result ${opened ? 'ok' : 'no'}`}>
-                {opened ? '✔️' : '❌'}
+              <span className="history-row-result ok">
+                ✔️
               </span>
             </div>
           );
